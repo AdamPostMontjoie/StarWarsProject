@@ -1,0 +1,30 @@
+# Node.js/JavaScript specific ignores
+node_modules/
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# Build artifacts (for React app)
+star-wars/build/
+star-wars/dist/
+
+# Build artifacts (for server, if applicable)
+server/dist/ # If your server code is transpiled to a 'dist' folder
+
+# Operating System Files
+.DS_Store
+Thumbs.db # Windows specific
+
+# IDE/Editor specific files
+.vscode/ # VS Code settings (if you don't want to share)
+.idea/   # IntelliJ/WebStorm settings
+*.sublime-project
+*.sublime-workspace
+
+# Log files
+*.log
+
+# Unit test coverage
+/coverage
