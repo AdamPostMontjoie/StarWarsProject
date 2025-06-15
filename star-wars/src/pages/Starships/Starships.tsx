@@ -38,6 +38,7 @@ const Starships = () => {
           )) }
       </Row>
         )}
+        {favShips.length === 0 && (<h2>Add some starships to your favorites!</h2>)}
     </Container>
   )
 }

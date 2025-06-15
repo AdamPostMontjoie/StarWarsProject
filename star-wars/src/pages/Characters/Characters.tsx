@@ -37,6 +37,7 @@ const Characters = () => {
           )) }
       </Row>
         )}
+        {favChars.length === 0 && (<h2>Add some characters to your favorites!</h2>)}
     </Container>
   )
 }

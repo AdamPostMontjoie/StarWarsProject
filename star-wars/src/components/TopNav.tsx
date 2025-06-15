@@ -17,6 +17,13 @@ function TopNav() {
             <Nav.Link href="/starships">My Starships</Nav.Link>
             <Nav.Link href="/about">About Page</Nav.Link>
           </Nav>
+          <Nav>
+            {/*will only display signup link while logged out once account system exists */}
+            <Nav.Link href="/login">Log In</Nav.Link>
+            <Nav.Link href="/register">Sign Up</Nav.Link>
+            {/* only display when logged in */}
+            <Nav.Link href='/'>Account Page </Nav.Link>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
