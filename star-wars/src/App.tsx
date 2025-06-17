@@ -5,7 +5,7 @@ import Starships from "./pages/Starships/Starships";
 import Characters from "./pages/Characters/Characters";
 import Register from "./pages/Auth/Register/Register";
 import Login from "./pages/Auth/Login/Login";
-import Account from "./pages/Auth/Account/Account";
+import Account from "./pages/Account/Account";
 
 function App() {
   return (

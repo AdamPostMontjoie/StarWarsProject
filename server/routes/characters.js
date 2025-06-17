@@ -5,26 +5,30 @@ const router = express.Router()
 
 router.get("/", async (req, res) => {
     try {
+      const userId = req.query.uid;
       let collection = await db.collection("characters");
-      let results = await collection.find({}).toArray();
+      let results = await collection.find({uid: userId}).toArray();
       res.status(200).send(results);
     } catch (err) {
       console.error(err);
-      res.status(500).send("Error retrieving characters from database");
+      res.status(500).send("error retrieving characters from database")
     }
   });  
   router.post("/", async (req, res) => {
     try {
-      let characterProperties = req.body
+      let characterProperties = req.body.properties
       const newCharacter = {
-        uid: new ObjectId().toHexString(),
+        uid: req.body.uid,
         properties:characterProperties,
         description:"A character",
         __v: 0
       }
       let collection = await db.collection("characters"); 
       //checking for a dupe
-      let existingCharacter = await collection.findOne({"properties.name":newCharacter.properties.name})
+      let existingCharacter = await collection.findOne({
+        "uid":newCharacter.uid,
+        "properties.name":newCharacter.properties.name,
+      })
       if(existingCharacter == null){
         let result = await collection.insertOne(newCharacter);
         res.status(201).send(result); 

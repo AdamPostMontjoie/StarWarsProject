@@ -1,18 +1,8 @@
-// src/contexts/authContext/index.tsx
-
 import React, { useContext, useEffect, useState } from "react"
 import { auth } from "../../firebase/firebase"
 import { onAuthStateChanged } from "firebase/auth"
 
-// --- CHANGE THIS LINE ---
-// From: const AuthContext = React.createContext()
-// To:
-const AuthContext = React.createContext({
-    currentUser: null,
-    userLoggedIn: false, // Matches initial state of AuthProvider's useState
-    loading: true        // Matches initial state of AuthProvider's useState
-});
-// -----------------------
+const AuthContext = React.createContext();
 
 export function useAuth(){
     return useContext(AuthContext)
@@ -23,15 +13,10 @@ export function AuthProvider({children}){
     const [userLoggedIn, setUserLoggedIn] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    // Add console logs for debugging if you still have them, they are useful
-    console.log("AuthProvider rendered. Initial loading:", loading);
-    console.log("Auth object at AuthProvider import:", auth);
 
     useEffect(()=>{
-        console.log("AuthProvider useEffect: Setting up onAuthStateChanged listener.");
         const unsubscribe = onAuthStateChanged(auth, initializeUser)
         return () => {
-            console.log("AuthProvider useEffect: Cleaning up onAuthStateChanged listener.");
             unsubscribe();
         };
     },[])
@@ -56,7 +41,6 @@ export function AuthProvider({children}){
     }
     return (
         <AuthContext.Provider value={value}>
-            {/* Conditional rendering for children based on loading */}
             { children}
         </AuthContext.Provider>
     )

@@ -5,26 +5,30 @@ const router = express.Router()
 //whitespace formatting all messed up lol
 router.get("/", async (req, res) => {
     try {
-      let collection = await db.collection("starships");
-      let results = await collection.find({}).toArray();
-      res.status(200).send(results);
+        const userId = req.query.uid
+        let collection = await db.collection("starships");
+        let results = await collection.find({uid: userId}).toArray();
+        res.status(200).send(results);
     } catch (err) {
-      console.error(err);
-      res.status(500).send("Error retrieving starships from database");
+        console.error(err);
+        res.status(500).send("Error retrieving starships from database");
     }
   });  
 router.post("/", async (req, res) => {
     try{
-        let shipProperties = req.body
+        let shipProperties = req.body.properties
         const newStarship = {
-        uid: new ObjectId().toHexString(),
-         properties:shipProperties,
+        uid: req.body.uid,
+        properties:shipProperties,
         description:"A starship",
         __v: 0
         }
         let collection = await db.collection("starships"); 
         //checking for a dupe
-        let existingShip = await collection.findOne({"properties.name":newStarship.properties.name})
+        let existingShip = await collection.findOne({
+            "uid": newStarship.uid,
+            "properties.name":newStarship.properties.name
+        })
         if(existingShip == null){
         let result = await collection.insertOne(newStarship);
         res.status(201).send(result); 

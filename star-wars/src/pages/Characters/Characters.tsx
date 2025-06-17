@@ -4,26 +4,30 @@ import axios from 'axios'
 import CharCard from './CharCard'
 import { Container,Row, Col, } from 'react-bootstrap'
 import { Character } from '../../interfaces/Character'
+import { useAuth } from '../../contexts/authContext'
 
 const Characters = () => {
   const [favChars, setFavChars] = useState<Character[]>([])
-  async function loadChars(){
-    try{
-      let characters = await axios.get("http://localhost:5050/characters")
-      setFavChars(characters.data)
-      console.log("Data from backend (ships.data):", characters.data);
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
+  const {userLoggedIn,currentUser} = useAuth()
   //prevents need for page reload
   const handleCharDeleted = (deletedCharId: string) => {
     setFavChars(prevChars => prevChars.filter(char => char._id !== deletedCharId));
   };
   useEffect(()=>{
+    async function loadChars(){
+      if(userLoggedIn){
+        try{
+          let characters = await axios.get(`http://localhost:5050/characters?uid=${currentUser.uid}`)
+          setFavChars(characters.data)
+          console.log("Data from backend (ships.data):", characters.data);
+        }
+        catch(error){
+          console.log(error);
+        }
+      }
+    }
     loadChars()
-  },[])
+  },[currentUser,userLoggedIn])
   return (
     <Container>
         <TopNav/>

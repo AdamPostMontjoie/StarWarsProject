@@ -6,8 +6,8 @@ const About = () => {
     <div>
       <TopNav/>
       <h1>About this app</h1>
-      <p>This app uses a MERN stack, and soon will have user logins and authentication</p>
-      <p>TS PMOs</p>
+      <p>Built by Adam Post</p>
+      <p>Will have link to github and explanation of tech later</p>
     </div>
   )
 }

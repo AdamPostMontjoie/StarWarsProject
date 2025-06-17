@@ -4,32 +4,35 @@ import axios from 'axios'
 import { Container,Row, Col, } from 'react-bootstrap'
 import { Ship } from '../../interfaces/Ship'
 import ShipCard from './ShipCard'
-
+import { useAuth } from '../../contexts/authContext'
 
 const Starships = () => {
   const [favShips, setFavShips] = useState<Ship[]>([])
-  async function loadShips(){
-    try{
-      let ships = await axios.get("http://localhost:5050/starships")
-      setFavShips(ships.data)
-      console.log("Data from backend (ships.data):", ships.data);
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
+  const {currentUser, userLoggedIn} = useAuth()
+  
   const handleShipDeleted = (deletedShipId: string) => {
     setFavShips(prevShips => prevShips.filter(ship => ship._id !== deletedShipId));
   };
   useEffect(()=>{  
+    async function loadShips(){
+      if(userLoggedIn){
+        try{
+          let ships = await axios.get(`http://localhost:5050/starships?uid=${currentUser.uid}`)
+          setFavShips(ships.data)
+        }
+        catch(error){
+          console.log(error);
+        }
+      } 
+    }
     loadShips()
-  },[])
+  },[userLoggedIn, currentUser])
 
   return (
     <Container>
         <TopNav/>
         <h1>Favorite Ships</h1>
-        {favShips && favShips.length > 0 && (
+        {favShips && userLoggedIn && favShips.length > 0 && (
           <Row className="mt-4">
           {favShips.map((data:Ship) => (
               <Col key={data.uid} xs={12} sm={6} md={4} lg={3} className="mb-3">
