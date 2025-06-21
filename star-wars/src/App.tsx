@@ -6,6 +6,7 @@ import Characters from "./pages/Characters/Characters";
 import Register from "./pages/Auth/Register/Register";
 import Login from "./pages/Auth/Login/Login";
 import Account from "./pages/Account/Account";
+import Battle from "./pages/Battle/Battle";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/account' element={<Account/>}/>
+        <Route path='/battle' element={<Battle/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -3,7 +3,8 @@ import TopNav from '../../../components/TopNav';
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/authContext';
-import { doCreateUserWithEmailAndPassword,doSignInWithEmailAndPassword } from '../../../firebase/auth';
+import { doCreateUserWithEmailAndPassword } from '../../../firebase/auth';
+import axios from 'axios';
 
 function Register() {
   const [email,setEmail] = useState("")
@@ -11,14 +12,24 @@ function Register() {
   async function onSubmit(e:React.FormEvent){
     e.preventDefault()
     try{
-      await doCreateUserWithEmailAndPassword(email,password)
-      await doSignInWithEmailAndPassword(email,password)
+      const userCred = await doCreateUserWithEmailAndPassword(email,password)
+      const newUser = userCred.user;
+      //await email verification, display something to let users know
+      
+      const user = {
+        uid:newUser.uid,
+        email:email,
+        friends: []
+      }
+      const result = axios.post('http://localhost:5050/users', user)
+      console.log(result);
+      
     }
     catch(err){
       console.error("there was a problem", err)
     }
   }
-  const {userLoggedIn, loading} = useAuth()
+  const {userLoggedIn,  loading} = useAuth()
   
   const navigate = useNavigate();
   

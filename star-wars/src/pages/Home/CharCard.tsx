@@ -39,7 +39,6 @@ const CharCard = ({character} : {character:Character}) => {
         <Card style={{ width: '18rem' }}>
       <Card.Body>
         <Card.Title>{character.properties.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
         <ListGroup variant="flush">
         <ListGroup.Item>Born: {character.properties.birth_year}</ListGroup.Item>
         <ListGroup.Item>Gender: {character.properties.gender}</ListGroup.Item>
