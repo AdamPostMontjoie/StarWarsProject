@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import db from './db/connection.js'; 
 import starships from './routes/ships.js'
-import characters from './routes/characters.js'
 import users from './routes/users.js'
 
 const PORT = process.env.PORT || 5050; 
@@ -13,7 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/starships",starships)
-app.use('/characters',characters)
 app.use('/users',users)
 
 // start the Express server

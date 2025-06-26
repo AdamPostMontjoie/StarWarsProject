@@ -24,7 +24,6 @@ function TopNav() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/characters">My Characters</Nav.Link>
             <Nav.Link href="/starships">My Starships</Nav.Link>
             <Nav.Link href="/battle">Fleet Battle</Nav.Link>
             <Nav.Link href="/about">About Page</Nav.Link>

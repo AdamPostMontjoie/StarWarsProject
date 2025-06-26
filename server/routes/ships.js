@@ -18,10 +18,11 @@ router.post("/", async (req, res) => {
     try{
         let shipProperties = req.body.properties
         const newStarship = {
-        uid: req.body.uid,
-        properties:shipProperties,
-        description:"A starship",
-        __v: 0
+            uid: req.body.uid,
+            properties:shipProperties,
+            description:"A starship",
+            quantity:req.body.quantity,
+            __v: 0
         }
         let collection = await db.collection("starships"); 
         //checking for a dupe
@@ -30,11 +31,11 @@ router.post("/", async (req, res) => {
             "properties.name":newStarship.properties.name
         })
         if(existingShip == null){
-        let result = await collection.insertOne(newStarship);
-        res.status(201).send(result); 
+            let result = await collection.insertOne(newStarship);
+            res.status(201).send(result); 
         }
         else{
-        res.status(409).send({ message: "Starship with this name already exists." });
+            res.status(409).send({ message: "Starship with this name already exists." });
         }
     } catch (err) {
         console.error(err);

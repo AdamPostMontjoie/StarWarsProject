@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
-const FriendsList = ({friends} : {friends:{uid:string, email:string}[]}) => {
+const FriendsList = ({friends, handleClick} : {friends:{uid:string, email:string}[], handleClick:(uid:string)=>void}) => {
     return (
         <div>
             { friends.length > 0 ? 
@@ -10,7 +10,7 @@ const FriendsList = ({friends} : {friends:{uid:string, email:string}[]}) => {
                 variant="success"
                 id="dropdown-basic"
             >
-                select from here
+                Your Friends
             </Dropdown.Toggle>
 
             <Dropdown.Menu
@@ -19,7 +19,7 @@ const FriendsList = ({friends} : {friends:{uid:string, email:string}[]}) => {
                     overflowY: "auto",
                 }}>
                 {friends.map((friend) =>(
-                    <Dropdown.Item key={friend.uid}>{friend.email}</Dropdown.Item>
+                    <Dropdown.Item onClick={()=>handleClick(friend.uid)} key={friend.uid}>{friend.email}</Dropdown.Item>
                 ))}
                 
             </Dropdown.Menu>

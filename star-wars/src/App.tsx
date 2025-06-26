@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import About from "./pages/About";
 import Starships from "./pages/Starships/Starships";
-import Characters from "./pages/Characters/Characters";
 import Register from "./pages/Auth/Register/Register";
 import Login from "./pages/Auth/Login/Login";
 import Account from "./pages/Account/Account";
@@ -15,8 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path='/starships' element={<Starships/>} />
-        <Route path='/characters' element={<Characters/>}/>
-        <Route path='/register' element={<Register/>}/>
+         <Route path='/register' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/account' element={<Account/>}/>
         <Route path='/battle' element={<Battle/>}/>
