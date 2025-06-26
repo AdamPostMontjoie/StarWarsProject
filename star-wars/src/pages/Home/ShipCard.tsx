@@ -41,7 +41,8 @@ const ShipCard = ({ship} : {ship:Ship}) => {
     <Container>
         <Card style={{ width: '18rem' }}>
       <Card.Body>
-        <Card.Title>{ship.properties.model}</Card.Title>
+        <Card.Title>{ship.properties.name}</Card.Title>     
+        <Card.Subtitle>{ship.properties.model}</Card.Subtitle>   
         <ListGroup variant="flush">
         <ListGroup.Item>Class: {ship.properties.starship_class}</ListGroup.Item>
         <ListGroup.Item>Crew: {ship.properties.crew}</ListGroup.Item>

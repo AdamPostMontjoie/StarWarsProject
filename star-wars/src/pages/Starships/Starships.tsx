@@ -35,7 +35,7 @@ const Starships = () => {
         {favShips && userLoggedIn && favShips.length > 0 && (
           <Row className="mt-4">
           {favShips.map((data:FavoriteShip) => (
-              <Col key={data.uid} xs={12} sm={6} md={4} lg={3} className="mb-3">
+              <Col key={data._id} xs={12} sm={6} md={4} lg={3} className="mb-3">
                   <ShipCard  ship={data} onDelete={handleShipDeleted}/>
               </Col>
           )) }

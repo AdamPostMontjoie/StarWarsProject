@@ -1,15 +1,15 @@
 export interface ShipProperties {
     MGLT: string;
-    cargo_capacity: number;
+    cargo_capacity: string;
     consumables: string;
-    cost_in_credits: number;
+    cost_in_credits: string;
     created: string;
     edited: string;
     films: string[];
-    hyperdrive_rating: number;
-    length: number;
+    hyperdrive_rating: string;
+    length: string;
     manufacturer: string;
-    max_atmosphering_speed: number;
+    max_atmosphering_speed: string;
     model: string;
     crew:string;
     name: string;

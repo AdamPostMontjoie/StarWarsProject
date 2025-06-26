@@ -17,7 +17,7 @@ const Battle = () => {
     const {currentUser, userLoggedIn} = useAuth()
     // will wait for battlelogic function to return, build in delay if too quick
     //users should have to wait at least 3 seconds
-    const [battleLoading, setBattleLoading] = useState(false)
+    //const [battleLoading, setBattleLoading] = useState(false)
 
     async function handleFriendClick(friendUid:string){
         try{
@@ -39,7 +39,6 @@ const Battle = () => {
 
     async function handleBattleClick(){
         if(userShips && friendShips){
-            setBattleLoading(true)
             startBattle(userShips,friendShips)
         } 
     }

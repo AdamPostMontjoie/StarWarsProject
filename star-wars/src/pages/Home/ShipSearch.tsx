@@ -25,11 +25,11 @@ const ShipSearch = () => {
         <h1>Search for a Star Wars Starship</h1>
         <Form onSubmit={search}>
       <Form.Group className="mb-3" controlId="formPlayer">
-        <Form.Label>Character</Form.Label>
         <Form.Control
          type="input" placeholder="Enter starship name" 
          onChange={(e) => setShip(e.target.value)}
          />
+         <Form.Text>Use model names to search, i.e. "DS-1 Orbital Battle Station" instead of "Death Star"</Form.Text>
       </Form.Group>
       <Button as="input" type="submit" value="Submit" />
       </Form>
