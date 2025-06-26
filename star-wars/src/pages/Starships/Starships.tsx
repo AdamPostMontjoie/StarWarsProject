@@ -2,12 +2,12 @@ import React, { useState,useEffect } from 'react'
 import TopNav from '../../components/TopNav'
 import axios from 'axios'
 import { Container,Row, Col, } from 'react-bootstrap'
-import { Ship } from '../../interfaces/Ship'
+import { FavoriteShip } from '../../interfaces/Ship'
 import ShipCard from './ShipCard'
 import { useAuth } from '../../contexts/authContext'
 
 const Starships = () => {
-  const [favShips, setFavShips] = useState<Ship[]>([])
+  const [favShips, setFavShips] = useState<FavoriteShip[]>([])
   const {currentUser, userLoggedIn} = useAuth()
   
   const handleShipDeleted = (deletedShipId: string) => {
@@ -17,8 +17,8 @@ const Starships = () => {
     async function loadShips(){
       if(userLoggedIn){
         try{
-          let ships = await axios.get(`http://localhost:5050/starships?uid=${currentUser.uid}`)
-          setFavShips(ships.data)
+          let response = await axios.get(`http://localhost:5050/starships?uid=${currentUser.uid}`)
+          setFavShips(response.data)
         }
         catch(error){
           console.log(error);
@@ -34,9 +34,9 @@ const Starships = () => {
         <h1>Favorite Ships</h1>
         {favShips && userLoggedIn && favShips.length > 0 && (
           <Row className="mt-4">
-          {favShips.map((data:Ship) => (
+          {favShips.map((data:FavoriteShip) => (
               <Col key={data.uid} xs={12} sm={6} md={4} lg={3} className="mb-3">
-                  <ShipCard ship={data} onDelete={handleShipDeleted}/>
+                  <ShipCard  ship={data} onDelete={handleShipDeleted}/>
               </Col>
           )) }
       </Row>

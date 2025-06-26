@@ -12,7 +12,7 @@ const ShipSearch = () => {
     async function search(e:React.FormEvent){
         e.preventDefault()
         try{
-            const response = await axios.get(`https://www.swapi.tech/api/starships/?name=${ship}`)
+            const response = await axios.get(`https://www.swapi.tech/api/starships/?model=${ship}`)
             setShipData(response.data.result)
             console.log(response.data.result)
         }

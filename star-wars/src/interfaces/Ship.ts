@@ -26,3 +26,12 @@ export interface ShipProperties {
     __v: number;         
     _id: string; 
   }
+
+  export interface FavoriteShip{
+    uid: string;
+    properties: ShipProperties;
+    description: string;
+    __v: number;         
+    _id: string; 
+    quantity: number;
+  }

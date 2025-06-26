@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, Container,ListGroup, Button } from 'react-bootstrap'
-import { Ship } from '../../interfaces/Ship'
+import { FavoriteShip } from '../../interfaces/Ship'
 import axios from 'axios'
 
-const ShipCard = ({ship, onDelete} : {ship:Ship, onDelete:any}) => {
+const ShipCard = ({ship, onDelete} : {ship:FavoriteShip, onDelete:any}) => {
   async function deleteShip(e:React.MouseEvent){
     e.preventDefault()
     try{
@@ -20,10 +20,11 @@ const ShipCard = ({ship, onDelete} : {ship:Ship, onDelete:any}) => {
     <Container>
         <Card style={{ width: '18rem' }}>
       <Card.Body>
-        <Card.Title>{ship.properties.name}</Card.Title>
+        <Card.Title>{ship.properties.model}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">Quantity: {ship.quantity}</Card.Subtitle>
         <ListGroup variant="flush">
         <ListGroup.Item>Class: {ship.properties.starship_class}</ListGroup.Item>
-        <ListGroup.Item>Model: {ship.properties.model}</ListGroup.Item>
+        <ListGroup.Item>Common Name: {ship.properties.name}</ListGroup.Item>
         <ListGroup.Item>Manufacturer: {ship.properties.manufacturer}</ListGroup.Item>
         <ListGroup.Item>Crew: {ship.properties.crew}</ListGroup.Item>
         <ListGroup.Item>Passengers: {ship.properties.passengers}</ListGroup.Item>
