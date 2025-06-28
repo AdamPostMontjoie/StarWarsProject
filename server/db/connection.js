@@ -1,28 +1,40 @@
-//connection.js
 import { MongoClient, ServerApiVersion } from "mongodb";
+console.log('db/connection.js - process.env.ATLAS_URI at import time:', process.env.ATLAS_URI);
 
-const uri = process.env.ATLAS_URI || ""; 
+let _db;
 
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
+export async function connectToDatabase(uri) {
+  if (_db) {
+    return _db;
+  }
 
-try {
-  // Connect the client to the server (this awaits for the connection)
-  await client.connect();
-  // Send a ping to confirm a successful connection
-  await client.db("admin").command({ ping: 1 });
-  console.log(
-   "Pinged your deployment. You successfully connected to MongoDB!"
-  );
-} catch(err) {
-  console.error(err); // If connection fails, it will log here
+  if (!uri || !uri.startsWith('mongodb')) {
+      throw new Error("Invalid MongoDB connection string provided.");
+  }
+  const client = new MongoClient(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    },
+  });
+
+  try {
+    await client.connect();
+    await client.db("admin").command({ ping: 1 });
+    console.log(
+    "Pinged your deployment. You successfully connected to MongoDB!"
+    );
+    _db = client.db("star_wars_db");
+    return _db;
+  } catch(err) {
+    console.error(err);
+  }
 }
 
-let db = client.db("star_wars_db"); // <<< Your database name (adjust if it's "star_wards_db")
-
-export default db; // <<< This is how your db object is exposed
+export function getDb() {
+  if (!_db) {
+    throw new Error("Database not connected. Call connectToDatabase first.");
+  }
+  return _db;
+}

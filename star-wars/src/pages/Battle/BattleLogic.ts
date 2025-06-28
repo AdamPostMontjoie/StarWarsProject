@@ -1,6 +1,6 @@
 //export functions that determine the winner of battles from here
+import axios from "axios";
 import { FavoriteShip } from "../../interfaces/Ship"
-
 //returns fleet speed, fleet physical size, quantity, and overall power
 // fleet with higher speed gets boosted odds, even if below in other cats
 interface FleetStats {
@@ -8,7 +8,6 @@ interface FleetStats {
     speed:number,
     size:number,
 }
-
 interface Outcome {
     winner: string,
     odds: number, //never tell me them
@@ -39,7 +38,7 @@ function determineFleetStats(ships:FavoriteShip[]):FleetStats{
                 fleet.size += numericSize;
             }
             
-        }
+        } 
     }
     return fleet;
 }
@@ -95,7 +94,7 @@ function determineVictory(userFleet:FleetStats,friendFleet:FleetStats):Outcome{
         battleOutCome.loserFleetSize = friendFleet.quantity;
     } else if(oddsResult >= odds){
         //friend wins
-        battleOutCome.winner = "Friend";
+        battleOutCome.winner = "Enemy";
         battleOutCome.winnerBaseScore = friendBasePower;
         battleOutCome.winnerSpeedBoostFactor = friendSpeedMultiplier;
         battleOutCome.winnerFleetSize = friendFleet.quantity;
@@ -106,13 +105,98 @@ function determineVictory(userFleet:FleetStats,friendFleet:FleetStats):Outcome{
     return battleOutCome
 }
 
-//returns user's chance of victory
+function buildPrompt(outcome:Outcome,
+        userShips:FavoriteShip[],
+        friendShips:FavoriteShip[],
+        userFleetStats:FleetStats,
+        friendFleetStats:FleetStats
+    ):string{
+    const getUserFleetComposition = (ships: FavoriteShip[]) => {
+        if (ships.length === 0) return 'no ships';
+        return ships.map(ship => `${ship.quantity} ${ship.properties.name || 'unknown ship'}`).join(', ');
+    };
+
+    let prompt = ``
+    const userFleetComposition = getUserFleetComposition(userShips);
+    const friendFleetComposition = getUserFleetComposition(friendShips);
+    prompt += `The User's fleet, composed of ${userFleetComposition}, engaged the Enemy's fleet, which deployed ${friendFleetComposition}. `;
+
+    //numbers
+    if (userFleetStats.quantity > friendFleetStats.quantity * 1.5) {
+        prompt += "The User commanded a vastly larger force. ";
+    } else if (friendFleetStats.quantity > userFleetStats.quantity * 1.5) {
+        prompt += "The Enemy brought a significantly superior number of ships. ";
+    } else if (userFleetStats.quantity > friendFleetStats.quantity) {
+        prompt += "The User's fleet held a numerical advantage. ";
+    } else if (friendFleetStats.quantity > userFleetStats.quantity) {
+        prompt += "The Enemy's fleet outnumbered the User's. ";
+    } else {
+        prompt += "Both fleets were numerically matched. ";
+    }
+    
+    //speed
+    if (userFleetStats.speed > friendFleetStats.speed * 1.5) {
+        prompt += "The User's fleet was exceptionally swift and agile. ";
+    } else if (friendFleetStats.speed > userFleetStats.speed * 1.5) {
+        prompt += "The Enemy's fleet moved with astonishing speed and precision. ";
+    } else if (userFleetStats.speed > friendFleetStats.speed) {
+        prompt += "The User's fleet had a notable speed advantage. ";
+    } else if (friendFleetStats.speed > userFleetStats.speed) {
+        prompt += "The Enemy's fleet possessed a distinct advantage in velocity. ";
+    } else {
+        prompt += "Both fleets were equally matched in speed. ";
+    }
+
+    //size
+    if (userFleetStats.size > friendFleetStats.size * 1.5) {
+        prompt += "The User's ships were considerably larger and more formidable. ";
+    } else if (friendFleetStats.size > userFleetStats.size * 1.5) {
+        prompt += "The Enemy's vessels were of immense scale and power. ";
+    } else if (userFleetStats.size > friendFleetStats.size) {
+        prompt += "The User's fleet comprised slightly larger vessels. ";
+    } else if (friendFleetStats.size > userFleetStats.size) {
+        prompt += "The Enemy's fleet consisted of somewhat larger ships. ";
+    } else {
+        prompt += "The fleets were comparable in overall size. ";
+    }
+
+    //odds
+    if(outcome.odds <= 20){
+        prompt += "The User's chances of victory were slim"
+    } else if (outcome.odds > 20 && outcome.odds <= 40){
+        prompt += "The User was an underdog in the odds, but not out of the fight"
+    } else if (outcome.odds > 40 && outcome.odds <= 60){
+        prompt += "The odds of victory were close enough that either side could win"
+    } else if (outcome.odds > 60 && outcome.odds <= 80){
+        prompt += "The User held a dominant edge in the odds, but they could not afford any mistakes"
+    } else {
+         prompt += "The User's victory seemed almost certain"
+    }
+    
+    //winner
+    if(outcome.winner === "User"){
+        prompt += "The User ended up winning the battle over the Enemy"
+    }
+    else{
+        prompt +="The Enemy ended up defeating the User's forces"
+    }
+
+    prompt += " Write a 2 paragraph Star Wars story about this battle. Do not include any numbers or numerical values in the story.";
+    return prompt;
+}
 
 export async function startBattle(userShips:FavoriteShip[],friendShips:FavoriteShip[]){
     console.log("battle has begun")
     //assess fleets
     const userFleetStats = determineFleetStats(userShips);
     const friendFleetStats = determineFleetStats(friendShips);
-    //determine odds of victory
+    //determine victory
     const outcome:Outcome = determineVictory(userFleetStats,friendFleetStats)
+    //build prompt for AI
+    const prompt = buildPrompt(outcome,userShips,friendShips,userFleetStats,friendFleetStats)
+    const response = await axios.post("http://localhost:5050/ai", {prompt:prompt})
+    return {
+        winner:outcome.winner,
+        response:response.data
+    }
 }

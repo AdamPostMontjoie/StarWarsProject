@@ -14,6 +14,9 @@ const Battle = () => {
     const [userShips,setUserShips] = useState<FavoriteShip[] | null>(null)
     const [friendShips,setFriendShips] = useState<FavoriteShip[] | null>(null)
     const [selectedFriend,setSelectedFriend] = useState(false)
+    const [battleReport, setBattleReport] = useState("")
+    const [loadingBattle,setLoadingBattle] = useState(false)
+    const [winner, setWinner] = useState("")
     const {currentUser, userLoggedIn} = useAuth()
     // will wait for battlelogic function to return, build in delay if too quick
     //users should have to wait at least 3 seconds
@@ -30,7 +33,6 @@ const Battle = () => {
             else{
                 alert("this friend has no ships, please choose another")
             }
-            console.log(response.data)
         }
         catch(err){
             console.error(err)
@@ -39,7 +41,23 @@ const Battle = () => {
 
     async function handleBattleClick(){
         if(userShips && friendShips){
-            startBattle(userShips,friendShips)
+            setLoadingBattle(true)
+            setSelectedFriend(false)
+            setBattleReport("")
+            try{
+                const data = await startBattle(userShips,friendShips)
+                setBattleReport(data.response.result)
+                if(data.winner === "User"){
+                    setWinner("You won!")
+                } else{
+                    setWinner("You lost")
+                }
+            } catch(err){
+                console.error(err)
+            } finally{
+                setLoadingBattle(false)
+            }
+            
         } 
     }
 
@@ -91,6 +109,18 @@ const Battle = () => {
                     </Row>
                     <Button onClick={()=>handleBattleClick()} size='lg'>Battle!</Button>
                 </Container>
+            )}
+            {loadingBattle && (
+                <div className="my-3">
+                    Analyzing battle... Awaiting transmission from the AI.
+                </div>
+            )}
+            {battleReport && !selectedFriend && (
+                <div className="my-3">
+                    <h1>{winner}</h1>
+                    <h2>Battle Report:</h2>
+                    <p>{battleReport}</p>
+                </div>
             )}
         </Container>
     )
