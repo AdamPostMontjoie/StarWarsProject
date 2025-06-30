@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/authContext';
 import { startBattle } from './BattleLogic';
 import { User } from '../../interfaces/User';
 import { FavoriteShip } from '../../interfaces/Ship';
+import BattleReport from './BattleReport';
 
 const Battle = () => {
     const [dbUser,setDbUser] = useState<User>()
@@ -48,9 +49,9 @@ const Battle = () => {
                 const data = await startBattle(userShips,friendShips)
                 setBattleReport(data.response.result)
                 if(data.winner === "User"){
-                    setWinner("You won!")
+                    setWinner("You Won!")
                 } else{
-                    setWinner("You lost")
+                    setWinner("You Lost")
                 }
             } catch(err){
                 console.error(err)
@@ -84,8 +85,9 @@ const Battle = () => {
         getUserData()
     },[currentUser,userLoggedIn])
     return (
+        <div>
+        <TopNav/>
         <Container className='text-center'>
-            <TopNav/>
             <h1>Star Wars Fleet Battle</h1>
             <h3>Choose one of your friends to attack</h3>
             <Row className="justify-content-center my-4">
@@ -117,12 +119,11 @@ const Battle = () => {
             )}
             {battleReport && !selectedFriend && (
                 <div className="my-3">
-                    <h1>{winner}</h1>
-                    <h2>Battle Report:</h2>
-                    <p>{battleReport}</p>
+                    <BattleReport winner={winner} text={battleReport}/>
                 </div>
             )}
         </Container>
+        </div>
     )
 }
 

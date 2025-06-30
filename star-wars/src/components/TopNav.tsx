@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { doSignOut } from '../firebase/auth';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './TopNav.css'
 
 
 function TopNav() {
@@ -18,15 +19,15 @@ function TopNav() {
   }
 
   return(
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar  bg="dark" data-bs-theme="dark"expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="/">Star Wars App</Navbar.Brand>
+        <Navbar.Brand  href="/">Star Wars Fleet Battles</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/starships">My Starships</Nav.Link>
-            <Nav.Link href="/battle">Fleet Battle</Nav.Link>
-            <Nav.Link href="/about">About Page</Nav.Link>
+            <Nav.Link href="/starships"  >My Fleet</Nav.Link>
+            <Nav.Link href="/battle" className="fleet-battle-highlight" >Fleet Battle</Nav.Link>
+            <Nav.Link href="/about"  >About This App</Nav.Link>
           </Nav>
           {!userLoggedIn && !loading && (
             <Nav>

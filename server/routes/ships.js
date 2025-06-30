@@ -29,14 +29,19 @@ export default function createStarshipsRouter(db) {
             let collection = db.collection("starships"); 
             let existingShip = await collection.findOne({
                 "uid": newStarship.uid,
-                "properties.name":newStarship.properties.name
+                "properties.name":newStarship.properties.name,
             })
             if(existingShip == null){
                 let result = await collection.insertOne(newStarship);
                 res.status(201).send(result); 
+            } else if(existingShip != null && existingShip.quantity !== newStarship.quantity){
+                let result = await collection.findOneAndUpdate(
+                    {"uid":existingShip.uid, "properties.name":existingShip.properties.name},
+                    {$set:{"quantity":newStarship.quantity}}
+                )
             }
             else{
-                res.status(409).send({ message: "Starship with this name already exists." });
+                res.status(409).send({ message: "Starship with this name and quantity already exists." });
             }
         } catch (err) {
             console.error(err);

@@ -38,17 +38,10 @@ function Register() {
         navigate('/account', { replace: true });
       }
     }, [userLoggedIn, loading, navigate]); 
-    if (loading) {
-      return (
-        <Container>
-          <TopNav />
-          <h1>Checking authentication status...</h1>
-        </Container>
-      );
-  } 
   return (
-    <Container>
+    <div>
       <TopNav/>
+    <Container>
       <h1>Create an account</h1>
       <Form onSubmit={onSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -64,6 +57,7 @@ function Register() {
         </Button>
       </Form>
     </Container>
+    </div>
   );
 }
 

@@ -12,7 +12,6 @@ const Account = () => {
   const [dbUser,setDbUser] = useState<User | null>(null)
   const [allDbUsers, setAllDbUsers] = useState<User[]>([])
 
-
   useEffect(()=>{
     async function friendData(){
 
@@ -43,8 +42,9 @@ const Account = () => {
   const handleClick = ()=> {};
 
   return (
+    <div>
+    <TopNav/>
     <Container>
-      <TopNav/>
      {userLoggedIn && currentUser && dbUser && allDbUsers.length > 0 && (
       <div>
         <h1>Your account info</h1>
@@ -56,6 +56,7 @@ const Account = () => {
       </div>
       )}
     </Container>
+    </div>
   )
 }
 

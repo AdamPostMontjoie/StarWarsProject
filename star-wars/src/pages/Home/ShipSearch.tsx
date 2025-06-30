@@ -21,18 +21,20 @@ const ShipSearch = () => {
         }
     }
   return (
-    <Container>
-        <h1>Search for a Star Wars Starship</h1>
+    <Container className='text-center'>
+        <h1>Add Starships To Your Fleet</h1>
+        <Container style={{ maxWidth: '600px', margin: '0 auto' }}>
         <Form onSubmit={search}>
-      <Form.Group className="mb-3" controlId="formPlayer">
-        <Form.Control
-         type="input" placeholder="Enter starship name" 
-         onChange={(e) => setShip(e.target.value)}
-         />
-         <Form.Text>Use model names to search, i.e. "DS-1 Orbital Battle Station" instead of "Death Star"</Form.Text>
-      </Form.Group>
-      <Button as="input" type="submit" value="Submit" />
+            <Form.Group className="mb-3" controlId="formPlayer">
+                <Form.Control
+                type="input" placeholder="Enter starship model name" 
+                onChange={(e) => setShip(e.target.value)}
+                />
+                <Form.Text>Use model names to search, i.e. "DS-1 Orbital Battle Station" instead of "Death Star"</Form.Text>
+            </Form.Group>
+            <Button as="input" type="submit" value="Submit" />
       </Form>
+      </Container>
       {shipData && shipData.length > 0 && ( 
             <Row className="mt-4">
                 {shipData.map((data:any) => (

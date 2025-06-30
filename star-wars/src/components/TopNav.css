@@ -1,0 +1,12 @@
+.fleet-battle-highlight {
+    color: #FFE81F !important;
+  }
+  
+  .fleet-battle-highlight:hover,
+  .fleet-battle-highlight:focus {
+    color:#FFE81F !important;
+  }
+  
+  .navbar-nav .nav-item .fleet-battle-highlight.active {
+    color: #FFE81F !important;
+  }

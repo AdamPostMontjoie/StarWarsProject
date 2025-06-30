@@ -29,9 +29,11 @@ const Starships = () => {
   },[userLoggedIn, currentUser])
 
   return (
-    <Container>
+    <div>
         <TopNav/>
+        <Container className='text-center'>
         <h1>Favorite Ships</h1>
+        <h6 className='text-muted'>To change quantity, search ship again on home page</h6>
         {favShips && userLoggedIn && favShips.length > 0 && (
           <Row className="mt-4">
           {favShips.map((data:FavoriteShip) => (
@@ -42,7 +44,8 @@ const Starships = () => {
       </Row>
         )}
         {favShips.length === 0 && (<h2>Add some starships to your favorites!</h2>)}
-    </Container>
+        </Container>
+      </div>
   )
 }
 

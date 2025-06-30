@@ -16,7 +16,7 @@ function Login() {
 
   useEffect(() => {
     if (userLoggedIn && !loading) {
-      navigate('/', { replace: true });
+      navigate('/account', { replace: true });
     }
   }, [userLoggedIn, loading, navigate]); 
 
@@ -38,18 +38,11 @@ function Login() {
       setIsSigningIn(false); 
   }
 
-  if (loading) {
-      return (
-        <Container>
-          <TopNav />
-          <h1>Checking authentication status...</h1>
-        </Container>
-      );
-  }
-
   return (
+    <div>
+    <TopNav/>
     <Container>
-      <TopNav/>
+      
       <h1>Login to your account</h1>
       <Form onSubmit={onSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -80,6 +73,7 @@ function Login() {
         </Button>
       </Form>
     </Container>
+    </div>
   );
 }
 
