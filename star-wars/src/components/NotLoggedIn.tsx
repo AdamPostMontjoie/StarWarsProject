@@ -17,7 +17,7 @@ const NotLoggedIn = () => {
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
       <Card className="text-center shadow-lg" style={{ width: '22rem' }}>
         <Card.Body>
-          <Card.Title as="h2" className="mb-3 text-danger">Access Denied</Card.Title>
+          <Card.Title as="h2" className="mb-3 text-danger">Not Logged In</Card.Title>
           <Card.Text className="mb-4">
             You must be logged in to view this page.
           </Card.Text>

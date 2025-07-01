@@ -23,7 +23,7 @@ const FriendsList = ({friends, handleClick} : {friends:{uid:string, email:string
 
             </Dropdown.Menu>
         </Dropdown>
-        : <h1>Add some friends! Navigate to your Account Page</h1>
+        : <h1><a href="/account">Add some friends!</a></h1>
             }
         </div>
 
