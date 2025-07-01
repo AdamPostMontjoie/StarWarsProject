@@ -34,9 +34,8 @@ const About = () => {
                 </a>
                 <Card.Text className="d-flex justify-content-center align-items-center mb-4"><a href='https://swapi.tech/'>Powered by  Star Wars API</a></Card.Text>
                 <p className="text-center">
-                  A Star Wars Fleet Battle Simulator where users can manage fleets, challenge friends, and get AI-generated battle reports.
+                  A Star Wars Fleet Battle Simulator where users can manage fleets, challenge other users, and get AI-generated battle reports.
                 </p>
-                <h4 className="text-center mt-5 mb-3"></h4>
                 <h3 className="text-center mt-5 mb-3">Technologies Utilized:</h3>
                 <ListGroup variant="flush">
                   <ListGroup.Item className="text-center">

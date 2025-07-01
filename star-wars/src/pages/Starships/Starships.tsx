@@ -5,10 +5,11 @@ import { Container,Row, Col, } from 'react-bootstrap'
 import { FavoriteShip } from '../../interfaces/Ship'
 import ShipCard from './ShipCard'
 import { useAuth } from '../../contexts/authContext'
+import NotLoggedIn from '../../components/NotLoggedIn'
 
 const Starships = () => {
   const [favShips, setFavShips] = useState<FavoriteShip[]>([])
-  const {currentUser, userLoggedIn} = useAuth()
+  const {currentUser, userLoggedIn, loading} = useAuth()
   
   const handleShipDeleted = (deletedShipId: string) => {
     setFavShips(prevShips => prevShips.filter(ship => ship._id !== deletedShipId));
@@ -30,7 +31,10 @@ const Starships = () => {
 
   return (
     <div>
-        <TopNav/>
+      <TopNav/>
+      {(userLoggedIn && !loading) || (!userLoggedIn && loading)?
+      <div>
+        
         <Container className='text-center'>
         <h1>Favorite Ships</h1>
         <h6 className='text-muted'>To change quantity, search ship again on home page</h6>
@@ -46,6 +50,12 @@ const Starships = () => {
         {favShips.length === 0 && (<h2>Add some starships to your favorites!</h2>)}
         </Container>
       </div>
+      : <div>
+        <NotLoggedIn/>
+        </div>
+      }
+    </div>
+    
   )
 }
 

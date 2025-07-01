@@ -6,6 +6,7 @@ import FriendsList from '../../components/FriendsList';
 import FleetCard from './FleetCard';
 import { useAuth } from '../../contexts/authContext';
 import { startBattle } from './BattleLogic';
+import NotLoggedIn from '../../components/NotLoggedIn';
 import { User } from '../../interfaces/User';
 import { FavoriteShip } from '../../interfaces/Ship';
 import BattleReport from './BattleReport';
@@ -18,7 +19,7 @@ const Battle = () => {
     const [battleReport, setBattleReport] = useState("")
     const [loadingBattle,setLoadingBattle] = useState(false)
     const [winner, setWinner] = useState("")
-    const {currentUser, userLoggedIn} = useAuth()
+    const {currentUser, userLoggedIn, loading} = useAuth()
     // will wait for battlelogic function to return, build in delay if too quick
     //users should have to wait at least 3 seconds
     //const [battleLoading, setBattleLoading] = useState(false)
@@ -87,6 +88,7 @@ const Battle = () => {
     return (
         <div>
         <TopNav/>
+        {(userLoggedIn && !loading) || (!userLoggedIn && loading)? 
         <Container className='text-center'>
             <h1>Star Wars Fleet Battle</h1>
             <h3>Choose one of your friends to attack</h3>
@@ -123,6 +125,9 @@ const Battle = () => {
                 </div>
             )}
         </Container>
+        : <div>
+            <NotLoggedIn/>
+        </div> }
         </div>
     )
 }

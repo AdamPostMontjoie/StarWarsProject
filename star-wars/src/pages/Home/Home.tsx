@@ -11,9 +11,10 @@ const Home = () => {
 
   return (
     <div>
+      <TopNav/>
       {(userLoggedIn && !loading) || (!userLoggedIn && loading)?
       <div>
-       <TopNav/>
+       
       <ShipSearch/> 
       </div>
       :
