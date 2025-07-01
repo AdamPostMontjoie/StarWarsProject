@@ -18,8 +18,6 @@ export async function connectToDatabase(uri) {
      // deprecationErrors: true,
     },
     ssl:true,
-    tlsAllowInvalidCertificates: true,
-    tlsAllowUntrustedCerts: true,
   });
 
   try {
