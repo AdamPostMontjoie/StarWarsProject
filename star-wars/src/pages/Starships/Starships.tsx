@@ -17,7 +17,7 @@ const Starships = () => {
     async function loadShips(){
       if(userLoggedIn){
         try{
-          let response = await axios.get(`http://localhost:5050/starships?uid=${currentUser.uid}`)
+          let response = await axios.get(`https://starwars-backend-z23b.onrender.com/starships?uid=${currentUser.uid}`)
           setFavShips(response.data)
         }
         catch(error){

@@ -18,7 +18,7 @@ const ShipCard = ({ship} : {ship:Ship}) => {
         quantity:quantity
       }
       try{
-        const backendResponse = await axios.post("http://localhost:5050/starships", userShip)
+        const backendResponse = await axios.post("https://starwars-backend-z23b.onrender.com/starships", userShip)
         console.log(backendResponse);     
       }
       catch(error){

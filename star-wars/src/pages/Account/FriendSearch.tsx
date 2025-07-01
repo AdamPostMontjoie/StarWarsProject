@@ -11,7 +11,7 @@ const FriendSearch = ({allUsers} :{allUsers:User[]}) => {
         console.log("clicked")
         try{
             const response = await axios.patch(
-                `http://localhost:5050/users/${currentUser.uid}`, 
+                `https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`, 
                 {friendUid: newFriend.uid,friendEmail:newFriend.email, userEmail:currentUser.email}
             )
             console.log(response.data);

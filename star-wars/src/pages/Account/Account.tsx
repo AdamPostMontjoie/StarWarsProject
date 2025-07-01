@@ -20,11 +20,11 @@ const Account = () => {
         try{
           //given size of site no need for a real search function
           //more data on users is kept in mongodb like friends
-          let allUsers = await axios.get('http://localhost:5050/users')
+          let allUsers = await axios.get('https://starwars-backend-z23b.onrender.com/users')
           console.log(allUsers.data);
           
           setAllDbUsers(allUsers.data.filter((u:User) => u.uid !== currentUser.uid))
-          let user = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
+          let user = await axios.get(`https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`)
           console.log(user.data)
           setDbUser(user.data)
         }

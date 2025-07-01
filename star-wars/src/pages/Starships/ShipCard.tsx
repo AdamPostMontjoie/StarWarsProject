@@ -7,7 +7,7 @@ const ShipCard = ({ship, onDelete} : {ship:FavoriteShip, onDelete:any}) => {
   async function deleteShip(e:React.MouseEvent){
     e.preventDefault()
     try{
-     let response = await axios.delete(`http://localhost:5050/starships/${ship._id}`)
+     let response = await axios.delete(`https://starwars-backend-z23b.onrender.com/starships/${ship._id}`)
      console.log(response);
      onDelete(ship._id)
     }

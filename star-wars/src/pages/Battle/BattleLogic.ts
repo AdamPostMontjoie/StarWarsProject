@@ -194,7 +194,7 @@ export async function startBattle(userShips:FavoriteShip[],friendShips:FavoriteS
     const outcome:Outcome = determineVictory(userFleetStats,friendFleetStats)
     //build prompt for AI
     const prompt = buildPrompt(outcome,userShips,friendShips,userFleetStats,friendFleetStats)
-    const response = await axios.post("http://localhost:5050/ai", {prompt:prompt})
+    const response = await axios.post("https://starwars-backend-z23b.onrender.com/ai", {prompt:prompt})
     return {
         winner:outcome.winner,
         response:response.data

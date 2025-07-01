@@ -26,7 +26,7 @@ const Battle = () => {
     async function handleFriendClick(friendUid:string){
         try{
             console.log("battle friend function called")
-            let response = await axios.get(`http://localhost:5050/starships/?uid=${friendUid}`)
+            let response = await axios.get(`https://starwars-backend-z23b.onrender.com/starships/?uid=${friendUid}`)
             if(response.data.length > 0){
                 setFriendShips(response.data)
                 setSelectedFriend(true)
@@ -66,10 +66,10 @@ const Battle = () => {
         async function getUserData(){
             if(userLoggedIn){
                 try{
-                    let response = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
+                    let response = await axios.get(`https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`)
                     console.log(response.data)
                     setDbUser(response.data)
-                    response = await axios.get(`http://localhost:5050/starships/?uid=${currentUser.uid}`)
+                    response = await axios.get(`https://starwars-backend-z23b.onrender.com/starships/?uid=${currentUser.uid}`)
                     if(response.data.length > 0){
                         setUserShips(response.data)
                     }
