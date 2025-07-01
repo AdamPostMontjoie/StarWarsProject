@@ -29,7 +29,8 @@ export async function connectToDatabase(uri) {
     _db = client.db("star_wars_db");
     return _db;
   } catch(err) {
-    console.error(err);
+    console.error("fuck",err);
+    throw err;
   }
 }
 
