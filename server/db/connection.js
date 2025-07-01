@@ -13,10 +13,11 @@ export async function connectToDatabase(uri) {
   }
   const client = new MongoClient(uri, {
     serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
+      version: ServerApiVersion.v1
+     // strict: true,
+     // deprecationErrors: true,
     },
+    ssl:true,
   });
 
   try {
