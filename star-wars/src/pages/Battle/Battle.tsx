@@ -88,7 +88,6 @@ const Battle = () => {
     return (
         <div>
         <TopNav/>
-        {(userLoggedIn && !loading) || (!userLoggedIn && loading)? 
         <Container className='text-center'>
             <h1>Star Wars Fleet Battle</h1>
             <h3>Choose one of your friends to attack</h3>
@@ -125,9 +124,6 @@ const Battle = () => {
                 </div>
             )}
         </Container>
-        : <div>
-            <NotLoggedIn/>
-        </div> }
         </div>
     )
 }

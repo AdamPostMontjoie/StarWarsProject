@@ -32,7 +32,6 @@ const Starships = () => {
   return (
     <div>
       <TopNav/>
-      {(userLoggedIn && !loading) || (!userLoggedIn && loading)?
       <div>
         
         <Container className='text-center'>
@@ -50,10 +49,6 @@ const Starships = () => {
         {favShips.length === 0 && (<h2>Add some starships to your favorites!</h2>)}
         </Container>
       </div>
-      : <div>
-        <NotLoggedIn/>
-        </div>
-      }
     </div>
     
   )

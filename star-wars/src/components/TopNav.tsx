@@ -19,7 +19,7 @@ function TopNav() {
   }
 
   return(
-    <Navbar  bg="dark" data-bs-theme="dark"expand="lg" className="bg-body-tertiary">
+    <Navbar fixed='top'  bg="dark" data-bs-theme="dark"expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand  href="/">Star Wars Fleet Battles</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

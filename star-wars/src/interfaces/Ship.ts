@@ -35,3 +35,10 @@ export interface ShipProperties {
     _id: string; 
     quantity: number;
   }
+  export interface nonUserShip{
+    properties: ShipProperties;
+    description: string;
+    __v: number;         
+    _id: string; 
+    quantity: number;
+  }

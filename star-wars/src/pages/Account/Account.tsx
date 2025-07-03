@@ -40,7 +40,7 @@ const Account = () => {
   },[userLoggedIn,currentUser]) 
   //blank function, didn't want to make second component
   const handleClick = ()=> {};
-
+   console.log(userLoggedIn,currentUser,dbUser,allDbUsers.length)
   return (
     <div>
     <TopNav/>
