@@ -2,57 +2,105 @@ import React from 'react'
 import TopNav from '../../components/TopNav'
 import { useAuth } from '../../contexts/authContext'
 import NotLoggedIn from '../../components/NotLoggedIn'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Battle from '../Battle/Battle'
 import { Button } from 'react-bootstrap'
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship'
 import ShipSelect from './ShipSelect'
-//this page is real barebones because originally was Character search as well
-//biggest problem i have with my react code in this was not making more components, too much per page
 
 const Home = () => {
+  const {userLoggedIn, currentUser} = useAuth()
   const [ready, setReady] = useState(false)
-  const [shipSelector,setShipSelector] = useState(false)
-  const [guestShips, setGuestShips] = useState<nonUserShip[]>([])
+  const [shipSelector,setShipSelector] = useState(true)
+  const [userShips, setUserShips] = useState<nonUserShip[] | FavoriteShip[]>([])
   function handleReady(){
     setReady(!ready)
+    setShipSelector(!shipSelector)
   }
   function toggleShipSelector(){
     setShipSelector(!shipSelector)
+    setReady(!ready)
   }
-  function addToFleet(ship:nonUserShip){
-    console.log("clicked");
-    setGuestShips(prevGuestShips => {
-        const existingShipIndex = prevGuestShips.findIndex(
-            e => e.properties.name === ship.properties.name
-        );
-        if (existingShipIndex > -1) {
-            const existingShip = prevGuestShips[existingShipIndex];
-            if (existingShip.quantity !== ship.quantity) {
-                const updatedShips = [...prevGuestShips];
-                updatedShips[existingShipIndex] = {
-                    ...existingShip,
-                    quantity: ship.quantity
-                };
-                return updatedShips;
-            } else {
-                return prevGuestShips;
-            }
-        } else {
-            return [...prevGuestShips, ship];
+  //https://starwars-backend-z23b.onrender.com
+  
+  useEffect(()=>{
+    async function getLoggedInShips(){
+      if(userLoggedIn){
+        try{
+          let response = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
+          setUserShips(response.data.ships)
+          console.log("got logged in ships", response.data.ships)
+        } catch(err){
+          console.error(err)
+          setUserShips([])
         }
+      }
+    }
+    getLoggedInShips()
+  },[currentUser,userLoggedIn])
+  useEffect(() => {
+    async function saveUserShips(shipsToSave:FavoriteShip[] | nonUserShip[]) {
+      if (!currentUser || !currentUser.uid) {
+        console.error("User not logged in or UID not available.");
+        return;
+      }
+    
+      try {
+        const response = await axios.put(
+          `http://localhost:5050/users/${currentUser.uid}/ships`,
+          { 
+            ships: shipsToSave 
+          }
+        );
+        console.log('Ships saved successfully:', response.data);
+      } catch (error) {
+        console.error('Error saving ships:', error);
+      }
+    }
+    if (userLoggedIn && currentUser?.uid) {
+      console.log("Auto-saving user ships to DB...", userShips);
+      saveUserShips(userShips); 
+    }
+  }, [userShips, userLoggedIn, currentUser]);
+  // if user is logged in, add to fleet will add to their db
+  function addToFleet(ship:nonUserShip) {
+    setUserShips(prevuserShips => {
+      const existingShipIndex = prevuserShips.findIndex(
+          e => e.properties.name === ship.properties.name
+      );
+// if ship quantity is 0, but already exists in db, it is removed
+      if (ship.quantity === 0) {
+        if (existingShipIndex > -1) {
+          return prevuserShips.filter((_, index) => index !== existingShipIndex);
+        } else {
+          return prevuserShips;
+        }
+      } else {
+        if (existingShipIndex > -1) {
+          const updatedShips = [...prevuserShips];
+          updatedShips[existingShipIndex] = {
+              ...prevuserShips[existingShipIndex],
+              quantity: ship.quantity
+          };
+          return updatedShips;
+        } else {
+          return [...prevuserShips, ship];
+        }
+      }
     });
-    console.log(guestShips)
   }
+  
+  
 
   return (
     <div>
       <TopNav/>
       <div className="pt-5">
       <Button onClick={toggleShipSelector}>Add to Fleet</Button>
-      { shipSelector && <ShipSelect addToFleet={addToFleet}/>}
+      { shipSelector && <ShipSelect userShips={userShips} addToFleet={addToFleet}/>}
       <Button onClick={handleReady}>Ready for Battle</Button>
-      {ready && <Battle/>}
+      {ready && <Battle userShips={userShips} setUserShips={setUserShips}/>}
       </div>
       
     </div>

@@ -1,6 +1,6 @@
 //export functions that determine the winner of battles from here
 import axios from "axios";
-import { FavoriteShip } from "../../interfaces/Ship"
+import { FavoriteShip, nonUserShip } from "../../interfaces/Ship"
 //returns fleet speed, fleet physical size, quantity, and overall power
 // fleet with higher speed gets boosted odds, even if below in other cats
 interface FleetStats {
@@ -21,7 +21,7 @@ interface Outcome {
 
 
 //gathers the stats on the fleet's power to be weighed
-function determineFleetStats(ships:FavoriteShip[]):FleetStats{
+function determineFleetStats(ships:FavoriteShip[] | nonUserShip[]):FleetStats{
     let fleet: FleetStats = { quantity: 0, speed: 0, size: 0};
     for(let i = 0; i < ships.length; i++){
         let ship = ships[i]
@@ -106,12 +106,12 @@ function determineVictory(userFleet:FleetStats,friendFleet:FleetStats):Outcome{
 }
 
 function buildPrompt(outcome:Outcome,
-        userShips:FavoriteShip[],
-        friendShips:FavoriteShip[],
+        userShips:FavoriteShip[] | nonUserShip[],
+        friendShips:FavoriteShip[] | nonUserShip[],
         userFleetStats:FleetStats,
         friendFleetStats:FleetStats
-    ):string{
-    const getUserFleetComposition = (ships: FavoriteShip[]) => {
+    ):string {
+    const getUserFleetComposition = (ships: FavoriteShip[] | nonUserShip[]) => {
         if (ships.length === 0) return 'no ships';
         return ships.map(ship => `${ship.quantity} ${ship.properties.name || 'unknown ship'}`).join(', ');
     };
@@ -185,7 +185,7 @@ function buildPrompt(outcome:Outcome,
     return prompt;
 }
 
-export async function startBattle(userShips:FavoriteShip[],friendShips:FavoriteShip[]){
+export async function startBattle(userShips:FavoriteShip[] | nonUserShip[],friendShips:FavoriteShip[] | nonUserShip[]){
     console.log("battle has begun")
     //assess fleets
     const userFleetStats = determineFleetStats(userShips);
@@ -194,7 +194,7 @@ export async function startBattle(userShips:FavoriteShip[],friendShips:FavoriteS
     const outcome:Outcome = determineVictory(userFleetStats,friendFleetStats)
     //build prompt for AI
     const prompt = buildPrompt(outcome,userShips,friendShips,userFleetStats,friendFleetStats)
-    const response = await axios.post("https://starwars-backend-z23b.onrender.com/ai", {prompt:prompt})
+    const response = await axios.post("http://localhost:5050/ai", {prompt:prompt})
     return {
         winner:outcome.winner,
         response:response.data

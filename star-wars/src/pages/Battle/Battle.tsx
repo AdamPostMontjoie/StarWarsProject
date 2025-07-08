@@ -2,39 +2,35 @@ import React, { useEffect, useState } from 'react';
 import TopNav from '../../components/TopNav';
 import { Container, Row,Col, Button} from 'react-bootstrap';
 import axios from 'axios';
-import FriendsList from '../../components/FriendsList';
 import FleetCard from './FleetCard';
 import { useAuth } from '../../contexts/authContext';
 import { startBattle } from './BattleLogic';
 import NotLoggedIn from '../../components/NotLoggedIn';
 import { User } from '../../interfaces/User';
-import { FavoriteShip } from '../../interfaces/Ship';
+import { FavoriteShip, nonUserShip } from '../../interfaces/Ship';
 import BattleReport from './BattleReport';
 
-const Battle = () => {
+const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteShip[], setUserShips:any}) => {
     const [dbUser,setDbUser] = useState<User>()
-    const [userShips,setUserShips] = useState<FavoriteShip[] | null>(null)
     const [friendShips,setFriendShips] = useState<FavoriteShip[] | null>(null)
     const [selectedFriend,setSelectedFriend] = useState(false)
     const [battleReport, setBattleReport] = useState("")
     const [loadingBattle,setLoadingBattle] = useState(false)
     const [winner, setWinner] = useState("")
     const {currentUser, userLoggedIn, loading} = useAuth()
-    // will wait for battlelogic function to return, build in delay if too quick
-    //users should have to wait at least 3 seconds
-    //const [battleLoading, setBattleLoading] = useState(false)
 
     async function handleFriendClick(friendUid:string){
         try{
-            console.log("battle friend function called")
-            let response = await axios.get(`https://starwars-backend-z23b.onrender.com/starships/?uid=${friendUid}`)
-            if(response.data.length > 0){
-                setFriendShips(response.data)
-                setSelectedFriend(true)
-            }
-            else{
-                alert("this friend has no ships, please choose another")
-            }
+            console.log("battle friend function called", friendUid)
+            setSelectedFriend(true)
+            // let response = await axios.get(`http://localhost:5050/starships/?uid=${friendUid}`)
+            // if(response.data.length > 0){
+            //     setFriendShips(response.data)
+            //     setSelectedFriend(true)
+            // }
+            // else{
+            //     alert("this friend has no ships, please choose another")
+            // }
         }
         catch(err){
             console.error(err)
@@ -67,15 +63,16 @@ const Battle = () => {
         async function getUserData(){
             if(userLoggedIn){
                 try{
-                    let response = await axios.get(`https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`)
+                    let response = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
                     console.log(response.data)
                     setDbUser(response.data)
-                    response = await axios.get(`https://starwars-backend-z23b.onrender.com/starships/?uid=${currentUser.uid}`)
+                    response = await axios.get(`http://localhost:5050/starships/?uid=${currentUser.uid}`)
                     if(response.data.length > 0){
                         setUserShips(response.data)
                     }
                     else{
-                        alert("Please add ships to play this mode")
+                        console.log("idk");
+                        
                     }
                 }   
                 catch(err){
@@ -90,24 +87,22 @@ const Battle = () => {
         <TopNav/>
         <Container className='text-center'>
             <h1>Star Wars Fleet Battle</h1>
-            <h3>Choose one of your friends to attack</h3>
+            <h3>Select a fleet to fight</h3>
             <Row className="justify-content-center my-4">
                 <Col xs={12} md={6} lg={4}>
-                    {userLoggedIn && currentUser && dbUser && userShips && (
-                        <FriendsList handleClick={handleFriendClick} friends={dbUser.friends || []}/>
-                    )}
+                    <Button onClick={()=>handleFriendClick("pizza")}>Hello</Button>
                 </Col>
             </Row>
-            {selectedFriend && userShips && friendShips && (
+            {selectedFriend && userShips && (
                 <Container>
                     <Row className="justify-content-center align-items-start my-5">
                         <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
                             <h2>Your Fleet</h2>
                             <FleetCard ships={userShips}/>
                         </Col>
-                        <Col xs={12} md={6} lg={5}>
-                            <h2>Friend's Fleet</h2>
-                            <FleetCard ships={friendShips}/>
+                        <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
+                            <h2>Enemy fleet (mirror of user for now)</h2>
+                            <FleetCard ships={userShips}/>
                         </Col>
                     </Row>
                     <Button onClick={()=>handleBattleClick()} size='lg'>Battle!</Button>

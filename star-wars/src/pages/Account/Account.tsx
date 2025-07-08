@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import TopNav from '../../components/TopNav'
-import FriendSearch from './FriendSearch';
-import FriendsList from '../../components/FriendsList';
 import { Container } from 'react-bootstrap';
 import { useAuth } from '../../contexts/authContext';
 import axios from 'axios';
@@ -20,11 +18,11 @@ const Account = () => {
         try{
           //given size of site no need for a real search function
           //more data on users is kept in mongodb like friends
-          let allUsers = await axios.get('https://starwars-backend-z23b.onrender.com/users')
+          let allUsers = await axios.get('http://localhost:5050/users')
           console.log(allUsers.data);
           
           setAllDbUsers(allUsers.data.filter((u:User) => u.uid !== currentUser.uid))
-          let user = await axios.get(`https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`)
+          let user = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
           console.log(user.data)
           setDbUser(user.data)
         }
@@ -50,9 +48,6 @@ const Account = () => {
         <h1>Your account info</h1>
         <h3>Email: {currentUser.email}</h3> 
         <h5>Add to your friends list!</h5>
-        <FriendSearch allUsers={allDbUsers}/>
-        <h5>Your friends</h5>
-        <FriendsList handleClick={handleClick} friends={dbUser.friends || []}/>
       </div>
       )}
     </Container>

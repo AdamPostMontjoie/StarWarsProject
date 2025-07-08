@@ -1,8 +1,8 @@
 import React from 'react'
 import { Card, Container,ListGroup } from 'react-bootstrap'
-import { FavoriteShip } from '../../interfaces/Ship'
+import { FavoriteShip, nonUserShip } from '../../interfaces/Ship'
 
-const FleetCard = ({ships} : {ships:FavoriteShip[]}) => {
+const FleetCard = ({ships} : {ships:FavoriteShip[] | nonUserShip[]}) => {
   return (
     <Container className='d-flex justify-content-center'>
         <Card style={{ width: '18rem' }}>

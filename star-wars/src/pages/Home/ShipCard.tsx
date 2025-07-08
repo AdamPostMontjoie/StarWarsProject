@@ -1,24 +1,41 @@
 import React, {useState} from 'react'
 import { Card, Container,ListGroup, Button } from 'react-bootstrap'
 import axios from 'axios'
-import { Ship } from '../../interfaces/Ship'
+import { FavoriteShip, nonUserShip, Ship } from '../../interfaces/Ship'
 import ShipQuantity from './ShipQuantity'
 import { useAuth } from '../../contexts/authContext'
+import { useEffect } from 'react'
 
-const ShipCard = ({ship, addToFleet} : {ship:any, addToFleet:any}) => {
+const ShipCard = ({ship, addToFleet, userShips} : {ship:any, addToFleet:any, userShips:FavoriteShip[] | nonUserShip[]}) => {
   const {currentUser,userLoggedIn} = useAuth()
-  let [quantity, setQuantity] = useState(1);
   
+  let [quantity, setQuantity] = useState(0);
+  const shipInUserFleet = userShips.find(
+    (fleetShip) => fleetShip.properties.name === ship.name
+  );
+  useEffect(() => {
+    if (userShips && userShips.length > 0) {
+      if (shipInUserFleet) {
+        setQuantity(shipInUserFleet.quantity);
+      } else {
+        setQuantity(0);
+      }
+    } else {
+      setQuantity(0);
+    }
+  }, [userShips, ship, shipInUserFleet]);
 
   async function postShip(){
-    const shipWithQuantity = {
-      quantity:quantity,
-      description: "A starship",
-      __v:0,
-      id: '68582347e7ad29e14ff4d1dd',
-      properties:ship
+    if(quantity > 0 || shipInUserFleet){
+      const shipWithQuantity = {
+        quantity:quantity,
+        description: "A starship",
+        __v:0,
+        id: '68582347e7ad29e14ff4d1dd',
+        properties:ship
+      }
+       addToFleet(shipWithQuantity)
     }
-     addToFleet(shipWithQuantity)
   }
 
  

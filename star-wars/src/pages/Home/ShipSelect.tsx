@@ -3,9 +3,9 @@ import axios from 'axios'
 import { Button, Container, Col, Row } from 'react-bootstrap'
 import ShipCard from './ShipCard'
 import { response } from 'express'
-import { nonUserShip } from '../../interfaces/Ship'
+import { FavoriteShip, nonUserShip } from '../../interfaces/Ship'
 
-const ShipSelect = ({addToFleet} :{addToFleet:any}) => {
+const ShipSelect = ({addToFleet, userShips} :{addToFleet:any, userShips:nonUserShip[] | FavoriteShip[]}) => {
     const [ships,setShips] = useState<any[]>([])
     async function getShips(){
         const response = await axios.get("http://localhost:5050/availableships")
@@ -24,7 +24,7 @@ const ShipSelect = ({addToFleet} :{addToFleet:any}) => {
                 {ships.map((ship: nonUserShip, index: number) => (
                     
                     <Col key={index} xs={12} sm={6} md={4} lg={3} className="mb-3">
-                        <ShipCard key={index} addToFleet={addToFleet} ship={ship} />
+                        <ShipCard key={index} userShips={userShips} addToFleet={addToFleet} ship={ship} />
                     </Col>    
                 ))}
                 </Row>

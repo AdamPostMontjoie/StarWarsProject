@@ -19,9 +19,9 @@ function Register() {
       const user = {
         uid:newUser.uid,
         email:email,
-        friends: []
+        ships:[]
       }
-      const result = axios.post('https://starwars-backend-z23b.onrender.com/users', user)
+      const result = await axios.post('http://localhost:5050/users', user)
       console.log(result);
       
     }

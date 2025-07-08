@@ -63,6 +63,32 @@ export default function createUsersRouter(db) {
             console.error(err)
         }
     })
+    router.put('/:id/ships', async (req, res) => {
+        try {
+            let collection = db.collection("users");
+            let uid = req.params.id;
+            let newShips = req.body.ships;
+
+            if (!Array.isArray(newShips)) {
+                return res.status(400).send({ message: "Invalid data: 'ships' must be an array." });
+            }
+            //no need for a new delete route
+            const shipsToSave = newShips.filter(ship => ship.quantity > 0);
+            let result = await collection.updateOne(
+                { uid: uid },
+                { $set: { ships: shipsToSave } }
+            );
+
+            if (result.matchedCount === 0) {
+                return res.status(404).send({ message: "User not found." });
+            }
+
+            res.status(200).send({ message: "User ships updated successfully.", result: result });
+        } catch (err) {
+            console.error("Error updating user ships:", err);
+            res.status(500).send("Could not update user ships.");
+        }
+    })
 
     return router;
 }
