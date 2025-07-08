@@ -39,7 +39,7 @@ export default function createUsersRouter(db) {
         }
         catch(err){
             console.error(err);
-            res.status(500).send("Error adding starship to database");
+            res.status(500).send("Error adding user to database");
         }
 
     })
