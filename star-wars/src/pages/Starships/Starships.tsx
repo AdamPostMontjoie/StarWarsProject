@@ -8,47 +8,75 @@ import { useAuth } from '../../contexts/authContext'
 import NotLoggedIn from '../../components/NotLoggedIn'
 
 const Starships = () => {
-  const [favShips, setFavShips] = useState<FavoriteShip[]>([])
+  const [userShips, setUserShips] = useState<FavoriteShip[]>([])
   const {currentUser, userLoggedIn, loading} = useAuth()
-  
-  const handleShipDeleted = (deletedShipId: string) => {
-    setFavShips(prevShips => prevShips.filter(ship => ship._id !== deletedShipId));
+  async function handleShipDeleted(shipToDelete: string) {
+    if (!currentUser || !currentUser.uid) {
+      console.error("User not logged in or UID not available.");
+      return;
+    }
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:5050/users/${currentUser.uid}/ships`,
+        { 
+          data: { ship: shipToDelete }
+        }
+      );
+      setUserShips(prevShips => {
+        const indexToDelete = prevShips.findIndex(ship => ship.properties.name === shipToDelete);
+        if (indexToDelete > -1) {
+          const newShips = [...prevShips];
+          newShips.splice(indexToDelete, 1);
+          return newShips;
+        }
+        return prevShips;
+      });
+    } catch (error) {
+      console.error('Error deleting ship:', error);
+    }
   };
-  useEffect(()=>{  
-    async function loadShips(){
+
+  useEffect(()=>{
+    async function getLoggedInShips(){
       if(userLoggedIn){
         try{
-          let response = await axios.get(`http://localhost:5050/starships?uid=${currentUser.uid}`)
-          setFavShips(response.data)
+          let response = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
+          setUserShips(response.data.ships)
+          console.log("got logged in ships", response.data.ships)
+        } catch(err){
+          console.error(err)
+          setUserShips([])
         }
-        catch(error){
-          console.log(error);
-        }
-      } 
+      }
     }
-    loadShips()
-  },[userLoggedIn, currentUser])
+    getLoggedInShips()
+  },[currentUser,userLoggedIn])
 
   return (
     <div>
       <TopNav/>
+      {userLoggedIn ? 
       <div>
-        
-        <Container className='text-center'>
-        <h1>Favorite Ships</h1>
-        <h6 className='text-muted'>To change quantity, search ship again on home page</h6>
-        {favShips && userLoggedIn && favShips.length > 0 && (
-          <Row className="mt-4">
-          {favShips.map((data:FavoriteShip) => (
-              <Col key={data._id} xs={12} sm={6} md={4} lg={3} className="mb-3">
-                  <ShipCard  ship={data} onDelete={handleShipDeleted}/>
-              </Col>
-          )) }
-      </Row>
-        )}
-        {favShips.length === 0 && (<h2>Add some starships to your favorites!</h2>)}
-        </Container>
-      </div>
+      <Container className='text-center'>
+      <h1>Favorite Ships</h1>
+      <h6 className='text-muted'>To change quantity, search ship again on home page</h6>
+      {userShips && userLoggedIn && userShips.length > 0 && (
+        <Row className="mt-4">
+        {userShips.map((data:FavoriteShip) => (
+            <Col key={data._id} xs={12} sm={6} md={4} lg={3} className="mb-3">
+                <ShipCard  ship={data} onDelete={handleShipDeleted}/>
+            </Col>
+        )) }
+    </Row>
+      )}
+      {userShips.length === 0 && (<h2>Add some starships to your favorites!</h2>)}
+      </Container>
+    </div>
+     : <div>
+        <NotLoggedIn/>
+     </div> }
+      
     </div>
     
   )

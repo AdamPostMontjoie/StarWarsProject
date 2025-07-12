@@ -26,7 +26,6 @@ function TopNav() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/starships"  >My Fleet</Nav.Link>
-            <Nav.Link href="/battle" className="fleet-battle-highlight" >Fleet Battle</Nav.Link>
             <Nav.Link href="/about"  >About This App</Nav.Link>
           </Nav>
           {!userLoggedIn && !loading && (
