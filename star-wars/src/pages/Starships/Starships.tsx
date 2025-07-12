@@ -56,7 +56,7 @@ const Starships = () => {
   return (
     <div>
       <TopNav/>
-      {userLoggedIn ? 
+      {userLoggedIn || loading ? 
       <div>
       <Container className='text-center'>
       <h1>Favorite Ships</h1>

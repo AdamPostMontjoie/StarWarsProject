@@ -90,11 +90,20 @@ const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteS
                             Dropdown Button
                         </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={()=>handleLevelClick(1)} >Pirates</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>handleLevelClick(2)}>Rebellion</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>handleLevelClick(3)}>Republic</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>handleLevelClick(4)}>Empire</Dropdown.Item>
+                        <Dropdown.Menu className='text-center'>
+                            <Dropdown.Item onClick={()=>handleLevelClick(1)} >Level 1 - Pirates</Dropdown.Item>
+                            {userLoggedIn ? (
+                                <div>
+                                    <Dropdown.Item onClick={()=>handleLevelClick(2)}>Level 2 - Rebellion</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>handleLevelClick(3)}>Level 3 - Republic</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>handleLevelClick(4)}>Level 4 - Empire</Dropdown.Item>
+                                </div>
+                            ) :
+                                <div>
+                                    <Dropdown.Item>Log In To Play Next</Dropdown.Item>
+                                </div>
+                            }
+                            
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>
@@ -107,7 +116,7 @@ const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteS
                             <FleetCard ships={userShips}/>
                         </Col>
                         <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
-                            <h2>Enemy fleet (mirror of user for now)</h2>
+                            <h2>Enemy fleet</h2>
                             <FleetCard ships={enemyShips}/>
                         </Col>
                     </Row>

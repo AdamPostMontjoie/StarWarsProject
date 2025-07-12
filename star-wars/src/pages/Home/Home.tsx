@@ -5,7 +5,7 @@ import NotLoggedIn from '../../components/NotLoggedIn'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Battle from '../Battle/Battle'
-import { Button } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship'
 import ShipSelect from './ShipSelect'
 
@@ -15,12 +15,19 @@ const Home = () => {
   const [shipSelector,setShipSelector] = useState(true)
   const [userShips, setUserShips] = useState<nonUserShip[] | FavoriteShip[]>([])
   function handleReady(){
+    if(userShips.length > 0){
     setReady(!ready)
     setShipSelector(!shipSelector)
+    } else{
+      alert("add ships before you can play")
+    }
   }
   function toggleShipSelector(){
-    setShipSelector(!shipSelector)
-    setReady(!ready)
+   
+      setShipSelector(!shipSelector)
+      setReady(!ready)
+    
+    
   }
   //https://starwars-backend-z23b.onrender.com
   
@@ -94,13 +101,19 @@ const Home = () => {
   
 
   return (
-    <div>
+    <div className='text-center'>
       <TopNav/>
       <div className="pt-5">
-      <Button onClick={toggleShipSelector}>Add to Fleet</Button>
-      { shipSelector && <ShipSelect userShips={userShips} addToFleet={addToFleet}/>}
-      <Button onClick={handleReady}>Ready for Battle</Button>
-      {ready && <Battle userShips={userShips} setUserShips={setUserShips}/>}
+       <ShipSelect userShips={userShips} addToFleet={addToFleet}/>
+      {!ready && userShips.length > 0 && (
+        <Button onClick={handleReady}>Ready for Battle</Button>
+      )} 
+      {ready && userShips.length > 0 ? (
+        <Battle userShips={userShips} setUserShips={setUserShips}/>
+      ) : ( 
+        <h4>Add ships to play</h4>
+      )
+      }
       </div>
       
     </div>

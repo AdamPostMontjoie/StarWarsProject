@@ -25,7 +25,9 @@ function TopNav() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
+          {userLoggedIn && !loading && (
             <Nav.Link href="/starships"  >My Fleet</Nav.Link>
+          )}
             <Nav.Link href="/about"  >About This App</Nav.Link>
           </Nav>
           {!userLoggedIn && !loading && (
@@ -38,7 +40,6 @@ function TopNav() {
           )}
           {userLoggedIn && !loading && (
             <Nav>
-              <Nav.Link href='/account'>Account Page </Nav.Link>
               <Nav.Link href='/' onClick={signOut}>Log Out</Nav.Link>
           </Nav>
             )}
