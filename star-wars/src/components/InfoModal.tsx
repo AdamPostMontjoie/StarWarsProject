@@ -6,7 +6,6 @@ import { ListGroup } from 'react-bootstrap';
 function InfoModal({loggedIn} : {loggedIn:boolean}) {
   const [show, setShow] = useState(!loggedIn);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   return (
     <>

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import TopNav from '../../components/TopNav';
 import { Container, Row,Col, Button, Dropdown, Card} from 'react-bootstrap';
 import axios from 'axios';
 import FleetCard from './FleetCard';
 import { useAuth } from '../../contexts/authContext';
 import { startBattle } from './BattleLogic';
-import NotLoggedIn from '../../components/NotLoggedIn';
-import { User } from '../../interfaces/User';
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship';
 import BattleReport from './BattleReport';
 
@@ -16,7 +13,7 @@ const Battle = ({userShips, setUserShips, resetGame} : {userShips:nonUserShip[] 
     const [battleReport, setBattleReport] = useState("")
     const [loadingBattle,setLoadingBattle] = useState(false)
     const [winner, setWinner] = useState("")
-    const {currentUser, userLoggedIn, loading} = useAuth()
+    const {currentUser, userLoggedIn} = useAuth()
 
     async function handleLevelClick(level:number){
         try{

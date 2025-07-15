@@ -17,7 +17,7 @@ const Starships = () => {
     }
 
     try {
-      const response = await axios.delete(
+       await axios.delete(
         `http://localhost:5050/users/${currentUser.uid}/ships`,
         { 
           data: { ship: shipToDelete }

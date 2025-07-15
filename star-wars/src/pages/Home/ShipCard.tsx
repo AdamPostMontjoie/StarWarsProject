@@ -1,9 +1,7 @@
 import React, {useState} from 'react'
-import { Card, Container,ListGroup, Button,Spinner} from 'react-bootstrap'
-import axios from 'axios'
-import { FavoriteShip, nonUserShip, Ship } from '../../interfaces/Ship'
+import { Card, Button,Spinner} from 'react-bootstrap'
+import { FavoriteShip, nonUserShip} from '../../interfaces/Ship'
 import ShipQuantity from './ShipQuantity'
-import { useAuth } from '../../contexts/authContext'
 import { useEffect } from 'react'
 import ShipImageArray from './shipImages'
 
