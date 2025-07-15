@@ -1,53 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import TopNav from '../../components/TopNav';
-import { Container, Row,Col, Button} from 'react-bootstrap';
+import { Container, Row,Col, Button, Dropdown, Card} from 'react-bootstrap';
 import axios from 'axios';
-import FriendsList from '../../components/FriendsList';
 import FleetCard from './FleetCard';
 import { useAuth } from '../../contexts/authContext';
 import { startBattle } from './BattleLogic';
 import NotLoggedIn from '../../components/NotLoggedIn';
 import { User } from '../../interfaces/User';
-import { FavoriteShip } from '../../interfaces/Ship';
+import { FavoriteShip, nonUserShip } from '../../interfaces/Ship';
 import BattleReport from './BattleReport';
 
-const Battle = () => {
-    const [dbUser,setDbUser] = useState<User>()
-    const [userShips,setUserShips] = useState<FavoriteShip[] | null>(null)
-    const [friendShips,setFriendShips] = useState<FavoriteShip[] | null>(null)
-    const [selectedFriend,setSelectedFriend] = useState(false)
+const Battle = ({userShips, setUserShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip[], setUserShips:any, resetGame:any}) => {
+    const [enemyShips,setEnemyShips] = useState<nonUserShip[]>([])
+    const [selectedEnemy,setSelectedEnemy] = useState(false)
     const [battleReport, setBattleReport] = useState("")
     const [loadingBattle,setLoadingBattle] = useState(false)
     const [winner, setWinner] = useState("")
     const {currentUser, userLoggedIn, loading} = useAuth()
-    // will wait for battlelogic function to return, build in delay if too quick
-    //users should have to wait at least 3 seconds
-    //const [battleLoading, setBattleLoading] = useState(false)
 
-    async function handleFriendClick(friendUid:string){
+    async function handleLevelClick(level:number){
         try{
-            console.log("battle friend function called")
-            let response = await axios.get(`https://starwars-backend-z23b.onrender.com/starships/?uid=${friendUid}`)
-            if(response.data.length > 0){
-                setFriendShips(response.data)
-                setSelectedFriend(true)
-            }
-            else{
-                alert("this friend has no ships, please choose another")
-            }
+            
+            let response = await axios.get(`http://localhost:5050/enemyfleet/?level=${level}`)
+            setSelectedEnemy(true)
+            console.log("enemy level 1", response.data)
+            setEnemyShips(response.data.ships)
         }
         catch(err){
-            console.error(err)
+            console.error("couldn't get enemy fleet", err)
         }
     }
 
     async function handleBattleClick(){
-        if(userShips && friendShips){
+        if(userShips && enemyShips){
             setLoadingBattle(true)
-            setSelectedFriend(false)
             setBattleReport("")
             try{
-                const data = await startBattle(userShips,friendShips)
+                const data = await startBattle(userShips,enemyShips)
                 setBattleReport(data.response.result)
                 if(data.winner === "User"){
                     setWinner("You Won!")
@@ -63,19 +52,25 @@ const Battle = () => {
         } 
     }
 
+    function handleReset(){
+        setBattleReport("")
+        setSelectedEnemy(false)
+        resetGame()
+    }
+
     useEffect(()=>{
         async function getUserData(){
             if(userLoggedIn){
                 try{
-                    let response = await axios.get(`https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`)
+                    let response = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
                     console.log(response.data)
-                    setDbUser(response.data)
-                    response = await axios.get(`https://starwars-backend-z23b.onrender.com/starships/?uid=${currentUser.uid}`)
+                    response = await axios.get(`http://localhost:5050/starships/?uid=${currentUser.uid}`)
                     if(response.data.length > 0){
                         setUserShips(response.data)
                     }
                     else{
-                        alert("Please add ships to play this mode")
+                        console.log("idk");
+                        
                     }
                 }   
                 catch(err){
@@ -84,31 +79,62 @@ const Battle = () => {
             }
         }
         getUserData()
-    },[currentUser,userLoggedIn])
+    },[currentUser,userLoggedIn, setUserShips])
+
+
     return (
         <div>
-        <TopNav/>
-        {(userLoggedIn && !loading) || (!userLoggedIn && loading)? 
         <Container className='text-center'>
-            <h1>Star Wars Fleet Battle</h1>
-            <h3>Choose one of your friends to attack</h3>
+        {!loadingBattle && !battleReport && (
+            <div>
+            <h3>Select An Enemy Fleet To Fight</h3>
             <Row className="justify-content-center my-4">
                 <Col xs={12} md={6} lg={4}>
-                    {userLoggedIn && currentUser && dbUser && userShips && (
-                        <FriendsList handleClick={handleFriendClick} friends={dbUser.friends || []}/>
-                    )}
+                    <Dropdown>
+                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                            Enemy Fleets
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className='text-center'>
+                            <Dropdown.Item onClick={()=>handleLevelClick(1)} >Level 1 - Pirates</Dropdown.Item>
+                            {userLoggedIn ? (
+                                <div>
+                                    <Dropdown.Item onClick={()=>handleLevelClick(2)}>Level 2 - Rebellion</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>handleLevelClick(3)}>Level 3 - Republic</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>handleLevelClick(4)}>Level 4 - Empire</Dropdown.Item>
+                                </div>
+                            ) :
+                                <div>
+                                    <Dropdown.Item>Log In To Play Next</Dropdown.Item>
+                                </div>
+                            }
+                            
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Col>
             </Row>
-            {selectedFriend && userShips && friendShips && (
+            </div>
+        )}
+            {!loadingBattle && userShips && !battleReport && (
                 <Container>
                     <Row className="justify-content-center align-items-start my-5">
                         <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
                             <h2>Your Fleet</h2>
                             <FleetCard ships={userShips}/>
                         </Col>
-                        <Col xs={12} md={6} lg={5}>
-                            <h2>Friend's Fleet</h2>
-                            <FleetCard ships={friendShips}/>
+                        <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
+                            <h2>Enemy fleet</h2>
+                            {selectedEnemy ? (
+                                <FleetCard ships={enemyShips}/>
+                            ): (
+                                <Container className='d-flex justify-content-center'>
+                                <Card style={{ width: '18rem', minHeight: '150px' }} className="border border-info rounded bg-light text-info d-flex flex-column justify-content-center align-items-center p-3">
+                                    <p className="fw-bold mb-2 text-center">No Enemy Fleet Selected</p>
+                                    <p className="text-muted text-center mb-0 small">Please choose a fleet level from the dropdown to challenge.</p>
+                                </Card>
+                            </Container>
+                            )}
+                            
                         </Col>
                     </Row>
                     <Button onClick={()=>handleBattleClick()} size='lg'>Battle!</Button>
@@ -119,15 +145,12 @@ const Battle = () => {
                     Analyzing battle... Awaiting transmission from the AI.
                 </div>
             )}
-            {battleReport && !selectedFriend && (
+            {battleReport  && (
                 <div className="my-3">
-                    <BattleReport winner={winner} text={battleReport}/>
+                    <BattleReport loggedIn={userLoggedIn} reset={handleReset} winner={winner} text={battleReport}/>
                 </div>
             )}
         </Container>
-        : <div>
-            <NotLoggedIn/>
-        </div> }
         </div>
     )
 }

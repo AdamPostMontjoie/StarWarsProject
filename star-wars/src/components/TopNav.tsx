@@ -19,14 +19,15 @@ function TopNav() {
   }
 
   return(
-    <Navbar  bg="dark" data-bs-theme="dark"expand="lg" className="bg-body-tertiary">
+    <Navbar fixed='top'  bg="dark" data-bs-theme="dark"expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand  href="/">Star Wars Fleet Battles</Navbar.Brand>
+        <Navbar.Brand  href="/">Galactic Fleet Battles</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
+          {userLoggedIn && !loading && (
             <Nav.Link href="/starships"  >My Fleet</Nav.Link>
-            <Nav.Link href="/battle" className="fleet-battle-highlight" >Fleet Battle</Nav.Link>
+          )}
             <Nav.Link href="/about"  >About This App</Nav.Link>
           </Nav>
           {!userLoggedIn && !loading && (
@@ -39,7 +40,6 @@ function TopNav() {
           )}
           {userLoggedIn && !loading && (
             <Nav>
-              <Nav.Link href='/account'>Account Page </Nav.Link>
               <Nav.Link href='/' onClick={signOut}>Log Out</Nav.Link>
           </Nav>
             )}

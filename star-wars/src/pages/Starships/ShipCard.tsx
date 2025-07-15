@@ -1,21 +1,18 @@
 import React from 'react'
 import { Card, Container,ListGroup, Button } from 'react-bootstrap'
 import { FavoriteShip } from '../../interfaces/Ship'
-import axios from 'axios'
+
+  
 
 const ShipCard = ({ship, onDelete} : {ship:FavoriteShip, onDelete:any}) => {
-  async function deleteShip(e:React.MouseEvent){
-    e.preventDefault()
-    try{
-     let response = await axios.delete(`https://starwars-backend-z23b.onrender.com/starships/${ship._id}`)
-     console.log(response);
-     onDelete(ship._id)
+
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (onDelete) {
+      onDelete(ship.properties.name);
     }
-    catch(err){
-      console.log("could not delete: ", err);
-      
-    }
-  }
+  };
   return (
     <Container>
         <Card style={{ width: '18rem' }}>
@@ -38,7 +35,7 @@ const ShipCard = ({ship, onDelete} : {ship:FavoriteShip, onDelete:any}) => {
 
       </ListGroup>
       </Card.Body>
-      <Button onClick={deleteShip} variant='danger'>Delete</Button>
+      <Button onClick={handleDeleteClick} variant='danger'>Delete</Button>
     </Card>
     </Container>
   )

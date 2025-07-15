@@ -1,8 +1,7 @@
+import { FavoriteShip } from "./Ship";
+
 export interface User {
     email: string,
     uid:string,
-    friends?:{
-        uid:string, 
-        email:string
-    }[]
+    ships:FavoriteShip[]
 }

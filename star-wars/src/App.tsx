@@ -4,8 +4,7 @@ import About from "./pages/About";
 import Starships from "./pages/Starships/Starships";
 import Register from "./pages/Auth/Register/Register";
 import Login from "./pages/Auth/Login/Login";
-import Account from "./pages/Account/Account";
-import Battle from "./pages/Battle/Battle";
+import NotFoundPage from "./components/NotFoundPage";
 
 function App() {
   return (
@@ -16,8 +15,7 @@ function App() {
         <Route path='/starships' element={<Starships/>} />
          <Route path='/register' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/account' element={<Account/>}/>
-        <Route path='/battle' element={<Battle/>}/>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
