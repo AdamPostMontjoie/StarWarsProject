@@ -19,7 +19,7 @@ const About = () => {
                 <Card.Title as="h1" className="text-center mb-4">
                   About This App
                 </Card.Title>
-                <a href='https://github.com/AdamPostMontjoie'>
+                <a rel="noreferrer" target='_blank' href='https://github.com/AdamPostMontjoie'>
                 <div  className="d-flex justify-content-center align-items-center mb-4">
                   <Card.Text className="lead m-0">
                     Built by Adam Post
@@ -32,7 +32,7 @@ const About = () => {
                     />
                 </div>
                 </a>
-                <Card.Text className="d-flex justify-content-center align-items-center mb-4"><a href='https://swapi.tech/'>Powered by  Star Wars API</a></Card.Text>
+                <Card.Text className="d-flex justify-content-center align-items-center mb-4"><a rel="noreferrer" target='_blank' href='https://swapi.tech/'>Powered by  Star Wars API</a></Card.Text>
                 <p className="text-center">
                   A Star Wars Fleet Battle Simulator where users can manage fleets, challenge other users, and get AI-generated battle reports.
                 </p>
@@ -51,7 +51,7 @@ const About = () => {
                     <strong>Authentication:</strong> Firebase
                   </ListGroup.Item>
                   <ListGroup.Item className="text-center">
-                    <strong>AI Integration:</strong> Google Gemini AI
+                    <strong>AI Integration:</strong> Google Gemini Model 2.0 Flash
                   </ListGroup.Item>
                 </ListGroup>
               </Card.Body>

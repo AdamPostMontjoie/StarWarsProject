@@ -12,7 +12,7 @@ import InfoModal from '../../components/InfoModal'
 import FleetCard from '../Battle/FleetCard'
 
 const Home = () => {
-  const {userLoggedIn, currentUser} = useAuth()
+  const {userLoggedIn, currentUser, loading} = useAuth()
   const [ready, setReady] = useState(false)
   const [shipSelector,setShipSelector] = useState(true)
   const [userShips, setUserShips] = useState<nonUserShip[] | FavoriteShip[]>([])
@@ -103,7 +103,9 @@ const Home = () => {
       <TopNav/>
       
       <div className="pt-5">
-      <InfoModal loggedIn={userLoggedIn}/>
+      {!userLoggedIn && !loading && (
+        <InfoModal/>
+      )}
       {!ready && (
         <ShipSelect userShips={userShips} addToFleet={addToFleet}/>
       )} 
@@ -111,7 +113,7 @@ const Home = () => {
         <div className='mt-5'>
           <h2>Your Fleet</h2>
           <FleetCard ships={userShips}/>
-          <Button className='mt-5'onClick={handleReady}>Ready for Battle</Button>
+          <Button className='mt-5 mb-5'onClick={handleReady}>Ready for Battle</Button>
         </div>
       )} 
       {ready && userShips.length > 0  && (
@@ -122,7 +124,7 @@ const Home = () => {
       )
       }
       {!ready && userShips.length < 1 && (
-        <h3 className='mt-5'>Add Ships To Play</h3>
+        <h3 className='mt-5 mb-5'>Add Ships To Play</h3>
       )}
       </div>
       

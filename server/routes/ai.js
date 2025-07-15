@@ -4,6 +4,7 @@ export default function createAIRouter(aiInstance) {
     const router = express.Router() 
 
     async function callGemini(prompt) {
+      try{
         const response = await aiInstance.models.generateContent({
           model: "gemini-2.0-flash",
           contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -12,6 +13,15 @@ export default function createAIRouter(aiInstance) {
           },
         });
         return response.text;
+      } catch (err) {
+        console.error("Gemini API call failed:", err); 
+        if (err.status === 503 || (err.response && err.response.status === 503)) {
+            return "Please try again in a few moments.";
+        } else {
+            return "An unexpected error occurred";
+        }
+    }
+        
       }
 
     router.post("/", async (req, res) => {

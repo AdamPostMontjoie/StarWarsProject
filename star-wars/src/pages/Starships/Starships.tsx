@@ -59,8 +59,7 @@ const Starships = () => {
       {userLoggedIn || loading ? 
       <div>
       <Container className='text-center'>
-      <h1>Favorite Ships</h1>
-      <h6 className='text-muted'>To change quantity, search ship again on home page</h6>
+      <h1 className='mt-5'>Favorite Ships</h1>
       {userShips && userLoggedIn && userShips.length > 0 && (
         <Row className="mt-4">
         {userShips.map((data:FavoriteShip) => (

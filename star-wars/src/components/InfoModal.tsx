@@ -3,10 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { ListGroup } from 'react-bootstrap';
 
-function InfoModal({loggedIn} : {loggedIn:boolean}) {
-  const [show, setShow] = useState(!loggedIn);
+function InfoModal() {
+  const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   return (
     <>
