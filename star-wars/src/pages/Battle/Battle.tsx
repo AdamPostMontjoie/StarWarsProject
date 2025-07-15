@@ -18,7 +18,7 @@ const Battle = ({userShips, setUserShips, resetGame} : {userShips:nonUserShip[] 
     async function handleLevelClick(level:number){
         try{
             
-            let response = await axios.get(`http://localhost:5050/enemyfleet/?level=${level}`)
+            let response = await axios.get(`https://starwars-backend-z23b.onrender.com/enemyfleet/?level=${level}`)
             setSelectedEnemy(true)
             console.log("enemy level 1", response.data)
             setEnemyShips(response.data.ships)
@@ -59,9 +59,9 @@ const Battle = ({userShips, setUserShips, resetGame} : {userShips:nonUserShip[] 
         async function getUserData(){
             if(userLoggedIn){
                 try{
-                    let response = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
+                    let response = await axios.get(`https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`)
                     console.log(response.data)
-                    response = await axios.get(`http://localhost:5050/starships/?uid=${currentUser.uid}`)
+                    response = await axios.get(`https://starwars-backend-z23b.onrender.com/starships/?uid=${currentUser.uid}`)
                     if(response.data.length > 0){
                         setUserShips(response.data)
                     }

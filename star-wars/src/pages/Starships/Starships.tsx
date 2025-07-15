@@ -18,7 +18,7 @@ const Starships = () => {
 
     try {
        await axios.delete(
-        `http://localhost:5050/users/${currentUser.uid}/ships`,
+        `https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}/ships`,
         { 
           data: { ship: shipToDelete }
         }
@@ -41,7 +41,7 @@ const Starships = () => {
     async function getLoggedInShips(){
       if(userLoggedIn){
         try{
-          let response = await axios.get(`http://localhost:5050/users/${currentUser.uid}`)
+          let response = await axios.get(`https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`)
           setUserShips(response.data.ships)
           console.log("got logged in ships", response.data.ships)
         } catch(err){

@@ -20,7 +20,7 @@ function Register() {
         email:email,
         ships:[]
       }
-      const result = await axios.post('http://localhost:5050/users', user)
+      const result = await axios.post('https://starwars-backend-z23b.onrender.com/users', user)
       console.log(result);
       
     }

@@ -9,7 +9,7 @@ const ShipSelect = ({addToFleet, userShips} :{addToFleet:any, userShips:nonUserS
     const [activeAccordionKey, setActiveAccordionKey] = useState(userShips.length < 1 ? '0' : null);
 
     async function getShips(){
-        const response = await axios.get("http://localhost:5050/availableships")
+        const response = await axios.get("https://starwars-backend-z23b.onrender.com/availableships")
         setShips(response.data)
     }
 

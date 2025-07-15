@@ -28,7 +28,7 @@ const Home = () => {
   function resetGame(){
     setReady(false)
   }
-  //https://starwars-backend-z23b.onrender.com
+  //
   
   useEffect(()=>{
     async function getLoggedInShips(){
@@ -42,7 +42,7 @@ const Home = () => {
       }
       if (currentUser?.uid) {
         try{
-          let response = await axios.get(`http://localhost:5050/users/${currentUser.uid}`);
+          let response = await axios.get(`https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}`);
           const fetchedShips = response.data.ships || [];
           setUserShips(fetchedShips);
           initialShipsLoaded.current = true;
@@ -67,7 +67,7 @@ const Home = () => {
     
       try {
         const response = await axios.put(
-          `http://localhost:5050/users/${currentUser.uid}/ships`,
+          `https://starwars-backend-z23b.onrender.com/users/${currentUser.uid}/ships`,
           { 
             ships: shipsToSave 
           }
