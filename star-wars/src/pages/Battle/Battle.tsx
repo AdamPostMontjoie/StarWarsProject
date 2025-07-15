@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TopNav from '../../components/TopNav';
-import { Container, Row,Col, Button, Dropdown} from 'react-bootstrap';
+import { Container, Row,Col, Button, Dropdown, Card} from 'react-bootstrap';
 import axios from 'axios';
 import FleetCard from './FleetCard';
 import { useAuth } from '../../contexts/authContext';
@@ -10,7 +10,7 @@ import { User } from '../../interfaces/User';
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship';
 import BattleReport from './BattleReport';
 
-const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteShip[], setUserShips:any}) => {
+const Battle = ({userShips, setUserShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip[], setUserShips:any, resetGame:any}) => {
     const [enemyShips,setEnemyShips] = useState<nonUserShip[]>([])
     const [selectedEnemy,setSelectedEnemy] = useState(false)
     const [battleReport, setBattleReport] = useState("")
@@ -34,7 +34,6 @@ const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteS
     async function handleBattleClick(){
         if(userShips && enemyShips){
             setLoadingBattle(true)
-            setSelectedEnemy(false)
             setBattleReport("")
             try{
                 const data = await startBattle(userShips,enemyShips)
@@ -51,6 +50,12 @@ const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteS
             }
             
         } 
+    }
+
+    function handleReset(){
+        setBattleReport("")
+        setSelectedEnemy(false)
+        resetGame()
     }
 
     useEffect(()=>{
@@ -79,15 +84,15 @@ const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteS
 
     return (
         <div>
-        <TopNav/>
         <Container className='text-center'>
-            <h1>Star Wars Fleet Battle</h1>
-            <h3>Select a fleet to fight</h3>
+        {!loadingBattle && !battleReport && (
+            <div>
+            <h3>Select An Enemy Fleet To Fight</h3>
             <Row className="justify-content-center my-4">
                 <Col xs={12} md={6} lg={4}>
                     <Dropdown>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                            Dropdown Button
+                            Enemy Fleets
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className='text-center'>
@@ -108,7 +113,9 @@ const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteS
                     </Dropdown>
                 </Col>
             </Row>
-            {selectedEnemy && userShips && (
+            </div>
+        )}
+            {!loadingBattle && userShips && !battleReport && (
                 <Container>
                     <Row className="justify-content-center align-items-start my-5">
                         <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
@@ -117,7 +124,17 @@ const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteS
                         </Col>
                         <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
                             <h2>Enemy fleet</h2>
-                            <FleetCard ships={enemyShips}/>
+                            {selectedEnemy ? (
+                                <FleetCard ships={enemyShips}/>
+                            ): (
+                                <Container className='d-flex justify-content-center'>
+                                <Card style={{ width: '18rem', minHeight: '150px' }} className="border border-info rounded bg-light text-info d-flex flex-column justify-content-center align-items-center p-3">
+                                    <p className="fw-bold mb-2 text-center">No Enemy Fleet Selected</p>
+                                    <p className="text-muted text-center mb-0 small">Please choose a fleet level from the dropdown to challenge.</p>
+                                </Card>
+                            </Container>
+                            )}
+                            
                         </Col>
                     </Row>
                     <Button onClick={()=>handleBattleClick()} size='lg'>Battle!</Button>
@@ -128,9 +145,9 @@ const Battle = ({userShips, setUserShips} : {userShips:nonUserShip[] | FavoriteS
                     Analyzing battle... Awaiting transmission from the AI.
                 </div>
             )}
-            {battleReport && !selectedEnemy && (
+            {battleReport  && (
                 <div className="my-3">
-                    <BattleReport winner={winner} text={battleReport}/>
+                    <BattleReport loggedIn={userLoggedIn} reset={handleReset} winner={winner} text={battleReport}/>
                 </div>
             )}
         </Container>

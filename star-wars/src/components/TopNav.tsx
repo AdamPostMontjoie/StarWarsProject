@@ -21,7 +21,7 @@ function TopNav() {
   return(
     <Navbar fixed='top'  bg="dark" data-bs-theme="dark"expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand  href="/">Star Wars Fleet Battles</Navbar.Brand>
+        <Navbar.Brand  href="/">Galactic Fleet Battles</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

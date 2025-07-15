@@ -35,10 +35,10 @@ const ShipSelect = ({addToFleet, userShips} :{addToFleet:any, userShips:nonUserS
                 <Accordion.Body>
                     {ships.length > 0 ? (
                         <Container>
-                            <Row className="mt-5 gx-1 gy-1 align-items-stretch">
+                            <Row className="mt-5 gx-1 gy-1 align-items-stretch row-cols-2 row-cols-md-4 row-cols-lg-6 row-cols-xl-8">
                             {ships.map((ship: nonUserShip, index: number) => (
-                                <Col key={index} xs={12} sm={6} md={4} lg={3} className="mb-3">
-                                    <ShipCard key={index} userShips={userShips} addToFleet={addToFleet} ship={ship} />
+                                <Col key={index} className="mb-3">
+                                    <ShipCard index={index} key={index} userShips={userShips} addToFleet={addToFleet} ship={ship} />
                                 </Col>    
                             ))}
                             </Row>

@@ -8,6 +8,8 @@ import Battle from '../Battle/Battle'
 import { Button, Container } from 'react-bootstrap'
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship'
 import ShipSelect from './ShipSelect'
+import InfoModal from '../../components/InfoModal'
+import FleetCard from '../Battle/FleetCard'
 
 const Home = () => {
   const {userLoggedIn, currentUser} = useAuth()
@@ -22,12 +24,8 @@ const Home = () => {
       alert("add ships before you can play")
     }
   }
-  function toggleShipSelector(){
-   
-      setShipSelector(!shipSelector)
-      setReady(!ready)
-    
-    
+  function resetGame(){
+    setReady(false)
   }
   //https://starwars-backend-z23b.onrender.com
   
@@ -103,17 +101,29 @@ const Home = () => {
   return (
     <div className='text-center'>
       <TopNav/>
+      
       <div className="pt-5">
-       <ShipSelect userShips={userShips} addToFleet={addToFleet}/>
-      {!ready && userShips.length > 0 && (
-        <Button onClick={handleReady}>Ready for Battle</Button>
+      <InfoModal loggedIn={userLoggedIn}/>
+      {!ready && (
+        <ShipSelect userShips={userShips} addToFleet={addToFleet}/>
       )} 
-      {ready && userShips.length > 0 ? (
-        <Battle userShips={userShips} setUserShips={setUserShips}/>
-      ) : ( 
-        <h4>Add ships to play</h4>
+      {!ready && userShips.length > 0 && (
+        <div className='mt-5'>
+          <h2>Your Fleet</h2>
+          <FleetCard ships={userShips}/>
+          <Button className='mt-5'onClick={handleReady}>Ready for Battle</Button>
+        </div>
+      )} 
+      {ready && userShips.length > 0  && (
+        <div className='mt-5'>
+          <Battle  resetGame={resetGame} userShips={userShips} setUserShips={setUserShips}/>
+        </div>
+        
       )
       }
+      {!ready && userShips.length < 1 && (
+        <h3 className='mt-5'>Add Ships To Play</h3>
+      )}
       </div>
       
     </div>

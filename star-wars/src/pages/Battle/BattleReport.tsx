@@ -2,8 +2,12 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const BattleReport = ({ text, winner }:{text:string, winner:string}) => {
- 
+const BattleReport = ({ text, winner, reset,loggedIn }:{text:string, winner:string, reset:any, loggedIn:boolean}) => {
+  
+  function handleReset(){
+   // e.preventDefault();
+    reset()
+  }
 
   return (
 <Container className="mt-5 mb-5">
@@ -22,10 +26,23 @@ const BattleReport = ({ text, winner }:{text:string, winner:string}) => {
                   </p>
                 ))}
               </Card.Text>
-              <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-between align-items-center">
-                <Button>Want More? Sign Up!</Button>
-                <Button>I like feet!</Button>
-              </Card.Footer>
+              {loggedIn? (
+                <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-center align-items-center">
+                <Button  size="lg" onClick={handleReset} className="me-2">
+                    Play Again!
+                  </Button>
+                </Card.Footer>
+              ): (
+                <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-between align-items-center">
+                <Button  size="lg" onClick={handleReset} className="me-2">
+                    Play Again!
+                  </Button>
+                  <Button variant="outline-primary" size="lg">
+                  <a style={{textDecoration:'none'}} href='/register'>Want More? Sign Up & Unlock Levels!</a>
+                  </Button>
+                </Card.Footer>
+              )}
+              
             </Card.Body>
           </Card>
         </Col>

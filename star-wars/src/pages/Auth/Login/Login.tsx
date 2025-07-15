@@ -16,7 +16,7 @@ function Login() {
 
   useEffect(() => {
     if (userLoggedIn && !loading) {
-      navigate('/account', { replace: true });
+      navigate('/', { replace: true });
     }
   }, [userLoggedIn, loading, navigate]); 
 
@@ -41,8 +41,7 @@ function Login() {
   return (
     <div>
     <TopNav/>
-    <Container>
-      
+    <Container className="pt-5">
       <h1>Login to your account</h1>
       <Form onSubmit={onSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">

@@ -15,7 +15,6 @@ function Register() {
       const userCred = await doCreateUserWithEmailAndPassword(email,password)
       const newUser = userCred.user;
       //await email verification, display something to let users know
-      
       const user = {
         uid:newUser.uid,
         email:email,
@@ -35,13 +34,13 @@ function Register() {
   
     useEffect(() => {
       if (userLoggedIn && !loading) {
-        navigate('/account', { replace: true });
+        navigate('/', { replace: true });
       }
     }, [userLoggedIn, loading, navigate]); 
   return (
     <div>
       <TopNav/>
-    <Container>
+    <Container className="pt-5">
       <h1>Create an account</h1>
       <Form onSubmit={onSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
