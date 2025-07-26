@@ -1,5 +1,5 @@
 const shipImageArray:string[] = [
-  "https://lumiere-a.akamaihd.net/v1/images/X-Wing-Fighter_47c7c342.jpeg?region=0%2C96%2C1536%2C769",
+  "/images/X-Wing-Fighter_47c7c342.jpeg",
   "https://lh3.googleusercontent.com/proxy/qWQubJxtPzZF0PLGgg1PO2vKr1BoFT5e4bAYSsyuEn_i9_M_zFlmZGVuNB7zJyhqc_aqR3KaeVFnFCPU2jDXu2Rw9bGi31PYQLem-egvs0PvseDVCSd2qij-5GbR",
   "https://lumiere-a.akamaihd.net/v1/images/Y-Wing-Fighter_0e78c9ae.jpeg?region=0%2C24%2C1536%2C768",
   "https://i.ytimg.com/vi/aewxcQ4pQ78/maxresdefault.jpg",

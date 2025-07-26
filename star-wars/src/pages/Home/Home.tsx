@@ -15,6 +15,7 @@ const Home = () => {
   
   const [shipSelector,setShipSelector] = useState(true)
   const [userShips, setUserShips] = useState<nonUserShip[] | FavoriteShip[]>([])
+  const [userCredits, setUserCredits] = useState(1000) //default value for now
   const initialShipsLoaded = useRef(false);
   const [ready, setReady] = useState(false);
 

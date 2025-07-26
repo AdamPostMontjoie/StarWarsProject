@@ -29,11 +29,10 @@ const ShipCard = ({index, ship, addToFleet, userShips} : {index:number, ship:any
       setIsAdding(true); 
 
       const shipWithQuantity = {
-        quantity: quantity,
-        description: "A starship",
+        properties: ship,
         __v: 0,
-        id: '68582347e7ad29e14ff4d1dd',
-        properties: ship
+        _id: '68582347e7ad29e14ff4d1dd',
+        quantity: quantity
       };
 
       const operationPromise = (async () => {
@@ -61,7 +60,7 @@ const ShipCard = ({index, ship, addToFleet, userShips} : {index:number, ship:any
         style={{ height: '120px', objectFit: 'cover', background: '#e0e0e0' }} 
       />
       <Card.Body className="text-center d-flex flex-column flex-grow-1 justify-content-between p-2">
-        <Card.Title className="fs-6 mb-1">{ship.model}</Card.Title>     
+        <Card.Title className="fs-6 mb-1">{ship.name}</Card.Title>     
         <ShipQuantity setCount={setQuantity} count={quantity}/>
       </Card.Body>
       <Button
