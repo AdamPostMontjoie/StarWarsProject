@@ -12,10 +12,11 @@ import FleetCard from '../Battle/FleetCard'
 
 const Home = () => {
   const {userLoggedIn, currentUser, loading} = useAuth()
-  const [ready, setReady] = useState(false)
+  
   const [shipSelector,setShipSelector] = useState(true)
   const [userShips, setUserShips] = useState<nonUserShip[] | FavoriteShip[]>([])
   const initialShipsLoaded = useRef(false);
+  const [ready, setReady] = useState(false);
 
   function handleReady(){
     if(userShips.length > 0){
@@ -122,10 +123,7 @@ const Home = () => {
       {!userLoggedIn && !loading && (
         <InfoModal/>
       )}
-      
-      {!ready && (
-        <ShipSelect userShips={userShips} addToFleet={addToFleet}/>
-      )} 
+        <ShipSelect ready={ready} userShips={userShips} addToFleet={addToFleet}/>
       {!ready && userShips.length > 0 && (
         <div className='mt-5'>
           <h2>Your Fleet</h2>

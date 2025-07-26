@@ -4,7 +4,7 @@ import {  Container, Col, Row, Accordion } from 'react-bootstrap'
 import ShipCard from './ShipCard'
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship'
 
-const ShipSelect = ({addToFleet, userShips} :{addToFleet:any, userShips:nonUserShip[] | FavoriteShip[]}) => {
+const ShipSelect = ({addToFleet, userShips, ready} :{addToFleet:any, userShips:nonUserShip[] | FavoriteShip[], ready:boolean}) => {
     const [ships,setShips] = useState<any[]>([])
     const [activeAccordionKey, setActiveAccordionKey] = useState(userShips.length < 1 ? '0' : null);
 
@@ -12,6 +12,11 @@ const ShipSelect = ({addToFleet, userShips} :{addToFleet:any, userShips:nonUserS
         const response = await axios.get("https://starwars-backend-z23b.onrender.com/availableships")
         setShips(response.data)
     }
+    useEffect(()=>{
+        if(ready){
+            setActiveAccordionKey(null)
+        }
+    },[ready])
 
     function toggleAccordion(){
         if(activeAccordionKey === '0') setActiveAccordionKey(null)
