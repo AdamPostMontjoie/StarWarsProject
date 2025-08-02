@@ -4,7 +4,7 @@ import {Container, Row, Col, Card, Button, Dropdown} from 'react-bootstrap'
 import FleetCard from './FleetCard';
 import axios from 'axios';
 
-const Staging = ({userShips, enemyShips, setEnemyShips}: {userShips:nonUserShip[] | FavoriteShip[], enemyShips:nonUserShip[], setEnemyShips:any,}) => {
+const Staging = ({userShips, enemyShips, setEnemyShips, setReady}: {userShips:nonUserShip[] | FavoriteShip[], enemyShips:nonUserShip[], setEnemyShips:any, setReady:any}) => {
     const [selectedEnemy, setSelectedEnemy] = useState(false);
     
     async function handleLevelClick(level:number){
@@ -62,6 +62,7 @@ const Staging = ({userShips, enemyShips, setEnemyShips}: {userShips:nonUserShip[
                         
                     </Col>
                 </Row>
+                <Button onClick={()=>setReady(true)}>Reeady up</Button>
             </Container>
         </div>
     )

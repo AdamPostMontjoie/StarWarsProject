@@ -134,7 +134,7 @@ const Home = () => {
       )} 
       {ready && userShips.length > 0  && (
         <div className='mt-5'>
-          <Battle  resetGame={resetGame} userShips={userShips} setUserShips={setUserShips}/>
+          <Battle  resetGame={resetGame} userShips={userShips} />
         </div>
         
       )

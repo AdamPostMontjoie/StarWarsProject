@@ -4,14 +4,30 @@ import axios from 'axios';
 import FleetCard from './FleetCard';
 import { useAuth } from '../../contexts/authContext';
 import Staging from './Staging';
+import Combat from './Combat';
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship';
 import BattleReport from './BattleReport';
 
-const Battle = ({userShips, setUserShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip[], setUserShips:any, resetGame:any}) => {
+const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip[],  resetGame:any}) => {
     const [enemyShips,setEnemyShips] = useState<nonUserShip[]>([]);
+    const [ready, setReady] = useState(false);
     return (
         <div>
-            <Staging userShips={userShips} enemyShips={enemyShips} setEnemyShips={setEnemyShips}/>
+            <div>
+            {!ready && (
+                <Staging setReady={setReady} userShips={userShips} enemyShips={enemyShips} setEnemyShips={setEnemyShips}/>
+            )}
+            </div>
+            <div>
+            {ready && (
+                <div>
+                    <Combat userShips={userShips} enemyShips={enemyShips}/>
+                    <Button onClick={()=>setReady(false)}>Exit Battle</Button>
+                </div>
+            )}
+            </div>
+    
+            
         </div>
     )
 }
