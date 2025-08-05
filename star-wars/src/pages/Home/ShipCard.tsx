@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import ShipImageArray from './shipImages'
 import './ShipCard.css';
 
-const ShipCard = ({index, ship, addToFleet, userShips} : {index:number, ship:any, addToFleet:any, userShips:FavoriteShip[] | nonUserShip[]}) => {
+const ShipCard = ({index, ship, addToFleet, userShips,filteredIndex} : {index:number, filteredIndex:number, ship:any, addToFleet:any, userShips:FavoriteShip[] | nonUserShip[]}) => {
 
   const [quantity, setQuantity] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
@@ -51,7 +51,8 @@ const ShipCard = ({index, ship, addToFleet, userShips} : {index:number, ship:any
       }
     }
   }
-  const imageUrl = ShipImageArray[index]
+  let imageUrl = ShipImageArray[index + filteredIndex]
+
 
   return (
         <Card className="styled-ship-card h-100 flex-column d-flex overflow-hidden" style={{ minHeight: '220px' }}>

@@ -1,0 +1,16 @@
+.main-heading {
+    color: #93c5fd; /* Matches the light blue text from your ship cards */
+    font-weight: bold; /* Ensures the text is prominent */
+    font-size: 2rem; /* A slightly larger size for main headings */
+}
+
+.message-box {
+    background-color: #0a1224;
+    border: 1px solid rgba(23, 37, 84, 0.5); 
+    box-shadow: 0 0 8px rgba(37, 99, 235, 0.5); 
+    color: #93c5fd;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    max-width: 24rem;
+    width: 100%;
+}

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship';
 import {Container, Row, Col, Card, Button, Dropdown} from 'react-bootstrap'
-import FleetCard from './FleetCard';
+import FleetCard from '../../components/FleetCard';
 import axios from 'axios';
+import '../../components/FleetCard.css'
 
 const Staging = ({userShips, enemyShips, setEnemyShips, setReady}: {userShips:nonUserShip[] | FavoriteShip[], enemyShips:nonUserShip[], setEnemyShips:any, setReady:any}) => {
     const [selectedEnemy, setSelectedEnemy] = useState(false);
@@ -41,25 +42,26 @@ const Staging = ({userShips, enemyShips, setEnemyShips, setReady}: {userShips:no
                 </Col>
             </Row>
             </div>
-            <Container>
+            <Container>   
                 <Row className="justify-content-center align-items-start my-5">
-                    <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
-                        <h2>Your Fleet</h2>
-                        <FleetCard ships={userShips}/>
+                    <Col xs={12} md={6} className="mb-4 mb-md-0">
+                        <div className="d-flex flex-column align-items-center">
+                            <h2>Your Fleet</h2>
+                            <FleetCard ships={userShips}/>
+                        </div>
                     </Col>
-                    <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
-                        <h2>Enemy fleet</h2>
-                        {selectedEnemy ? (
-                            <FleetCard ships={enemyShips}/>
-                        ): (
-                            <Container className='d-flex justify-content-center'>
-                            <Card style={{ width: '18rem', minHeight: '150px' }} className="border border-info rounded bg-light text-info d-flex flex-column justify-content-center align-items-center p-3">
-                                <p className="fw-bold mb-2 text-center">No Enemy Fleet Selected</p>
-                                <p className="text-muted text-center mb-0 small">Please choose a fleet level from the dropdown to challenge.</p>
-                            </Card>
-                        </Container>
-                        )}
-                        
+                    <Col xs={12} md={6} className="mb-4 mb-md-0">
+                        <div className="d-flex flex-column align-items-center">
+                            <h2>Enemy fleet</h2>
+                            {selectedEnemy ? (
+                                <FleetCard ships={enemyShips}/>
+                            ): (
+                                <Card style={{ minHeight: '150px', maxWidth:'26rem' }} className="fleet-card-container d-flex flex-column justify-content-center align-items-center p-3 rounded">
+                                    <p className="fw-bold mb-2 text-center text-white">No Enemy Fleet Selected</p>
+                                    <p className="text-center mb-0">Please choose a fleet level from the dropdown to challenge.</p>
+                                </Card>
+                            )}
+                        </div>
                     </Col>
                 </Row>
                 <Button onClick={()=>setReady(true)}>Reeady up</Button>

@@ -1,0 +1,123 @@
+/* ShipSelect.css */
+
+/* Toggle button */
+.ship-select-toggle {
+    position: fixed;
+    top: 5rem;
+    left: 1rem;
+    z-index: 30;
+    background-color: #2563eb; /* bg-blue-600 */
+    color: white;
+    padding: 0.75rem;
+    border-radius: 9999px; /* rounded-full */
+    box-shadow: 0 0 10px #2563eb; /* shadow-glow-blue */
+    transition: transform 0.2s, background-color 0.2s;
+    border: none;
+  }
+  .ship-select-toggle:hover {
+    background-color: #1d4ed8; /* hover:bg-blue-700 */
+    transform: scale(1.1);
+  }
+  
+  /* Offcanvas styles */
+  .ship-select-drawer {
+    background-color: #0a1224; /* Fully opaque */
+    /* Removed z-index: 40; */
+    border-right: 1px solid rgba(23, 37, 84, 0.5); /* border-r border-blue-900/50 */
+    box-shadow: 2px 0 8px rgba(37, 99, 235, 0.5); /* shadow-glow-blue-sm */
+    max-width: 24rem; /* sm:w-96 */
+  }
+  @media (max-width: 576px) {
+    .ship-select-drawer {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  
+  /* Removed .drawer-overlay styles */
+  
+  /* Header */
+  .drawer-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(23, 37, 84, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .drawer-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #93c5fd; /* text-blue-300 */
+    display: flex;
+    align-items: center;
+  }
+  .close-button {
+    padding: 0.25rem;
+    border-radius: 9999px;
+    transition: background-color 0.2s;
+    background: transparent;
+    border: none;
+    color: #93c5fd;
+  }
+  .close-button:hover {
+    background-color: rgba(23, 37, 84, 0.5);
+  }
+  
+  /* Filters */
+  .filter-container {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(23, 37, 84, 0.5);
+  }
+  .filter-icon {
+    color: #60a5fa; /* text-blue-400 */
+  }
+  .filter-label {
+    color: #93c5fd; /* text-blue-300 */
+    font-size: 0.875rem;
+  }
+  .filter-btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    transition: background-color 0.2s, color 0.2s;
+    background-color: rgba(23, 37, 84, 0.5);
+    color: #93c5fd;
+    border: none;
+  }
+  .filter-btn:hover {
+    background-color: rgba(30, 58, 138, 0.5); /* hover:bg-blue-800/50 */
+  }
+  .filter-btn-active {
+    background-color: #2563eb; /* bg-blue-600 */
+    color: white;
+  }
+  
+  /* Custom scrollbar for ship list */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #1d4ed8;
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #3b82f6;
+  }
+  
+  /* Footer */
+  .drawer-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(23, 37, 84, 0.5);
+  }
+
+  .ship-select-container-inline {
+    background-color: #0a1224; 
+    border-right: 1px solid rgba(23, 37, 84, 0.5);
+    box-shadow: 2px 0 8px rgba(37, 99, 235, 0.5); 
+    max-width: 24rem; 
+    min-height: 100vh;
+    overflow-y: auto;
+}

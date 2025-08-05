@@ -8,22 +8,26 @@ import Battle from '../Battle/Battle'
 import { Button} from 'react-bootstrap'
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship'
 import ShipSelect from './ShipSelect'
+import ShipSelectInline from './ShipSelectInline'
 import InfoModal from '../../components/InfoModal'
-import FleetCard from '../Battle/FleetCard'
+import FleetCard from '../../components/FleetCard'
+import { Rocket } from 'lucide-react'
+import './Home.css';
+
 
 const Home = () => {
   const {userLoggedIn, currentUser, loading} = useAuth()
   
   const [shipSelector,setShipSelector] = useState(true)
   const [userShips, setUserShips] = useState<nonUserShip[] | FavoriteShip[]>([])
-  const [userCredits, setUserCredits] = useState(1000) //default value for now
   const initialShipsLoaded = useRef(false);
   const [ready, setReady] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
 
   function handleReady(){
     if(userShips.length > 0){
     setReady(!ready)
-    setShipSelector(!shipSelector)
+    setShipSelector(false)
     } else{
       alert("add ships before you can play")
     }
@@ -31,7 +35,14 @@ const Home = () => {
   function resetGame(){
     setReady(false)
   }
-  //
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   useEffect(()=>{
     async function getLoggedInShips(){
@@ -61,6 +72,7 @@ const Home = () => {
     }
     getLoggedInShips();
   },[currentUser,userLoggedIn, loading]);
+
   useEffect(() => {
     async function saveUserShips(shipsToSave:FavoriteShip[] | nonUserShip[]) {
       if (!currentUser || !currentUser.uid) {
@@ -87,13 +99,13 @@ const Home = () => {
       console.log("Auto-save skipped: Ships not yet initially loaded from DB after login.");
     }
   }, [userShips, userLoggedIn, currentUser]);
-  // if user is logged in, add to fleet will add to their db
+  
   function addToFleet(ship:nonUserShip) {
     setUserShips(prevuserShips => {
       const existingShipIndex = prevuserShips.findIndex(
           e => e.properties.name === ship.properties.name
       );
-// if ship quantity is 0, but already exists in db, it is removed
+
       if (ship.quantity === 0) {
         if (existingShipIndex > -1) {
           return prevuserShips.filter((_, index) => index !== existingShipIndex);
@@ -115,21 +127,56 @@ const Home = () => {
     });
   }
   
-  
-
   return (
     <div className='text-center'>
        <StarBackground />
       <TopNav/>
       
-      <div className="pt-5" style={{ position: 'relative', zIndex: 1 }}>
+      <div className="d-flex pt-5" style={{ position: 'relative', zIndex: 1 }}>
       {!userLoggedIn && !loading && (
         <InfoModal/>
       )}
-        <ShipSelect ready={ready} userShips={userShips} addToFleet={addToFleet}/>
+
+      {
+      !ready && isDesktop && shipSelector && (
+          <ShipSelectInline
+            userShips={userShips}
+            addToFleet={addToFleet}
+
+          />
+        )
+      }
+      
+      {/* The main content container now handles its own centering */}
+      <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center" style={{minHeight: '100vh'}}>
+      {/* The problematic 'container' div has been removed */}
+      {
+      !ready && !isDesktop && !shipSelector && (
+          <div className="ship-select-toggle-container d-md-none">
+            <Button
+              onClick={() => setShipSelector(true)}
+              className="ship-select-toggle"
+              aria-label="Open ship selection"
+            >
+              <Rocket size={24} />
+            </Button>
+          </div>
+        )
+      }
+
+      {
+      !ready && !isDesktop && shipSelector && (
+          <ShipSelect 
+            isOpen={shipSelector} 
+            onClose={() => setShipSelector(false)} 
+            ready={ready} 
+            userShips={userShips} 
+            addToFleet={addToFleet}
+          />
+      )}
       {!ready && userShips.length > 0 && (
-        <div className='mt-5'>
-          <h2>Your Fleet</h2>
+        <div className="mt-5">
+          <h2 className="main-heading">Your Fleet</h2>
           <FleetCard ships={userShips}/>
           <Button className='mt-5'onClick={handleReady}>Ready for Battle</Button>
         </div>
@@ -138,14 +185,15 @@ const Home = () => {
         <div className='mt-5'>
           <Battle  resetGame={resetGame} userShips={userShips} />
         </div>
-        
       )
       }
       {!ready && userShips.length < 1 && (
-        <h3 className='mt-5'>Add Ships To Play</h3>
+        <div className="message-box mt-5">
+          <h3 className="main-heading">Add Ships To Play</h3>
+        </div>
       )}
       </div>
-      
+      </div>
     </div>
   )
 }

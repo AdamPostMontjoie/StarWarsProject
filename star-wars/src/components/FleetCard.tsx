@@ -1,60 +1,53 @@
 import React from 'react'
 import { Card, Container,ListGroup } from 'react-bootstrap'
-import { FavoriteShip, nonUserShip } from '../../interfaces/Ship'
+import { FavoriteShip, nonUserShip } from '../interfaces/Ship';
+import './FleetCard.css'; // Import the new CSS file
 
 const FleetCard = ({ships} : {ships:FavoriteShip[] | nonUserShip[]}) => {
   let capitalShips = ships.filter((ship) => ship.properties.class === "Capital")
   let starfighters = ships.filter((ship) => ship.properties.class === "Starfighter")
   let bombers = ships.filter((ship) => ship.properties.class === "Bomber")
   return (
-    <Container className='d-flex justify-content-center'>
-        <Card  style={{ width: '18rem' }} className="border border-info rounded bg-light text-info">
-              <Card.Body>
+        <Card className="fleet-card-container rounded">
+              <Card.Body className="fleet-card-body">
                 {capitalShips.length > 0 &&(
                 <ListGroup variant="flush">
-                <h4>Capital ships</h4>
+                <h4 className="fleet-card-heading">Capital Ships</h4>
                 {capitalShips.map((ship) => (
-                  <div>
-                    <ListGroup.Item key={ship._id} className="bg-light border-0">
-                      <span className="fw-bold">{ship.properties.name}</span> 
+                    <ListGroup.Item key={ship.properties.name} className="fleet-card-list-group-item">
+                      <span className="fleet-card-ship-name">{ship.properties.name}</span> 
                       {' - '} 
-                      <span className="text-muted small">{ship.quantity}</span>
+                      <span className="fleet-card-quantity">{ship.quantity}</span>
                     </ListGroup.Item>
-                  </div>
               ))}
               </ListGroup>
               )}
               {starfighters.length > 0 &&(
                   <ListGroup variant="flush">
-                    <h4>Starfighters</h4>
+                    <h4 className="fleet-card-heading">Starfighters</h4>
                     {starfighters.map((ship) => (
-                      <div>
-                        <ListGroup.Item key={ship._id} className="bg-light border-0">
-                          <span className="fw-bold">{ship.properties.name}</span> 
+                        <ListGroup.Item key={ship.properties.name} className="fleet-card-list-group-item">
+                          <span className="fleet-card-ship-name">{ship.properties.name}</span> 
                           {' - '} 
-                          <span className="text-muted small">{ship.quantity}</span>
+                          <span className="fleet-card-quantity">{ship.quantity}</span>
                         </ListGroup.Item>
-                      </div>
                     ))}
                 </ListGroup>
               )}
               {bombers.length > 0 &&(
               <ListGroup variant="flush">
-                <h4>Bombers</h4>
+                <h4 className="fleet-card-heading">Bombers</h4>
                 {bombers.map((ship) => (
-                  <div>
-                    <ListGroup.Item key={ship._id} className="bg-light border-0">
-                      <span className="fw-bold">{ship.properties.name}</span> 
+                    <ListGroup.Item key={ship.properties.name} className="fleet-card-list-group-item">
+                      <span className="fleet-card-ship-name">{ship.properties.name}</span> 
                       {' - '} 
-                      <span className="text-muted small">{ship.quantity}</span>
+                      <span className="fleet-card-quantity">{ship.quantity}</span>
                     </ListGroup.Item>
-                  </div>
               ))}
               </ListGroup>
               )}
               </Card.Body>
             </Card>
-    </Container>
   )
 }
 

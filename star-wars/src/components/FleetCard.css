@@ -1,0 +1,47 @@
+/* FleetCard.css */
+
+.fleet-card-container {
+    background-color: #0a1224;
+    border: 1px solid rgba(23, 37, 84, 0.5); /* Blue border */
+    box-shadow: 0 0 8px rgba(37, 99, 235, 0.5); /* Blue glow effect */
+    color: #93c5fd; /* Light blue text for headings and labels */
+    max-width: 100%; /* Match width of ShipSelector */
+    width: 100%;
+    min-width: 26rem;
+}
+
+.fleet-card-body {
+    padding: 1.5rem;
+}
+
+.fleet-card-heading {
+    color: #93c5fd;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(23, 37, 84, 0.5); /* Separator line */
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+}
+
+.fleet-card-heading:first-of-type {
+    margin-top: 0;
+}
+
+.fleet-card-list-group-item {
+    background-color: transparent !important;
+    border: none !important; /* Remove default list item borders */
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.fleet-card-ship-name {
+    color: white;
+}
+
+.fleet-card-quantity {
+    color: #60a5fa; /* A slightly different shade of blue */
+}
+
+.fleet-card-message {
+    color: #60a5fa; /* New class for message text */
+}
