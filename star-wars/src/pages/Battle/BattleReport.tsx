@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const BattleReport = ({ text, winner, reset,loggedIn }:{text:string, winner:string, reset:any, loggedIn:boolean}) => {
+const BattleReport = ({ text, winner, reset,loggedIn,aiRequestCompleted,retry }:{text:string, winner:string, reset:any, loggedIn:boolean,aiRequestCompleted:boolean,retry:any}) => {
   
   function handleReset(){
    // e.preventDefault();
@@ -20,13 +20,13 @@ const BattleReport = ({ text, winner, reset,loggedIn }:{text:string, winner:stri
             </Card.Header>
             <Card.Body className="p-4">
               <Card.Text className="text-dark line-height-report">
-                {text.split('\n\n').map((paragraph, index) => (
+              {typeof text === 'string' && text.split('\n\n').map((paragraph, index) => (
                   <p key={index} className={index < text.split('\n\n').length - 1 ? 'mb-3' : ''}>
                     {paragraph}
                   </p>
                 ))}
               </Card.Text>
-              {loggedIn? (
+              {loggedIn && aiRequestCompleted? (
                 <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-center align-items-center">
                 <Button  size="lg" onClick={handleReset} className="me-2">
                     Play Again!
@@ -41,6 +41,13 @@ const BattleReport = ({ text, winner, reset,loggedIn }:{text:string, winner:stri
                   <a style={{textDecoration:'none'}} href='/register'>Want More? Sign Up & Unlock Levels!</a>
                   </Button>
                 </Card.Footer>
+              )}
+              {!aiRequestCompleted && (
+                 <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-between align-items-center">
+                 <Button  size="lg" onClick={retry} className="me-2">
+                     Try Again
+                   </Button>
+                 </Card.Footer>
               )}
               
             </Card.Body>

@@ -7,22 +7,78 @@ import Staging from './Staging';
 import Combat from './Combat';
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship';
 import BattleReport from './BattleReport';
+import { buildPrompt } from './GeminiPrompt';
 
 const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip[],  resetGame:any}) => {
     const [enemyShips,setEnemyShips] = useState<nonUserShip[]>([]);
     const [ready, setReady] = useState(false);
+    const [gameOver, setGameOver] = useState(false)
+    const [aiLoading,setAiLoading] = useState(false)
+    const [battleReport, setBattleReport] = useState<string>("")
+    const [winner,setWinner] = useState("")
+    const [aiRequestCompleted, setAiRequstCompleted] = useState(false)
+    const {userLoggedIn} = useAuth()
+
+    function endGameNoAi(){
+        setReady(false)
+        setGameOver(true)
+    }
+
+    function reset(){
+        setBattleReport("")
+    }
+
+    async function endGameWithAI(
+            userTurnLog:string[][],
+            enemyTurnLog:string[][],
+            initialUserClasses:(nonUserShip[] | FavoriteShip[])[],
+            initialEnemyClasses:(nonUserShip[] | FavoriteShip[])[],
+            winner:string
+        ){
+        setReady(false)
+        setGameOver(true)
+        const prompt = buildPrompt(userTurnLog,enemyTurnLog,initialUserClasses,initialEnemyClasses,winner)
+        console.log(prompt)
+        setAiLoading(true)
+        try{
+            const response = await axios.post("https://starwars-backend-z23b.onrender.com/ai", {prompt:prompt})
+            console.log(response.data.result)
+            setAiLoading(false)
+            setBattleReport(response.data.result)
+            setReady(false)
+            setAiRequstCompleted(true)
+        }
+        catch(err){
+            console.error("failed request")
+            setAiLoading(false)
+            setBattleReport("Gemini failed to respond")
+            setReady(false)
+            setAiRequstCompleted(false)
+        }
+    }
+
     return (
         <div>
             <div>
-            {!ready && (
+            {!ready && !battleReport && !aiLoading &&(
                 <Staging setReady={setReady} userShips={userShips} enemyShips={enemyShips} setEnemyShips={setEnemyShips}/>
             )}
             </div>
             <div>
-            {ready && (
+            {ready && !battleReport&& (
                 <div>
-                    <Combat userShips={userShips} enemyShips={enemyShips}/>
-                    <Button onClick={()=>setReady(false)}>Exit Battle</Button>
+                    <Combat endGame={endGameWithAI} userShips={userShips} enemyShips={enemyShips}/>
+                    <Button onClick={()=>endGameNoAi()} >Exit Battle</Button>
+                </div>
+            )}
+            {aiLoading && (
+                <div className="my-3">
+                    Analyzing battle... Awaiting transmission from the AI.
+                </div>
+            )}
+            {battleReport  && (
+                <div className="my-3">
+                    <BattleReport retry={endGameWithAI} aiRequestCompleted={aiRequestCompleted} loggedIn={userLoggedIn} reset={reset} winner={winner} text={battleReport}/>
                 </div>
             )}
             </div>
