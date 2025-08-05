@@ -1,0 +1,67 @@
+/* ShipCard Styles */
+.styled-ship-card {
+    background-color: #121A2A;
+    border: 1px solid rgba(30, 58, 138, 0.5); /* blue-900/50 */
+    transition: all 0.3s ease;
+  }
+  
+  .styled-ship-card:hover {
+    border-color: rgba(59, 130, 246, 0.5); /* blue-500/50 */
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); /* The glow effect */
+  }
+  
+  .card-image-wrapper {
+    height: 128px; /* h-32 */
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.5rem 0.5rem 0 0; /* rounded-lg but only top corners */
+  }
+  
+  .styled-ship-card .card-body {
+    padding: 0.75rem; /* p-3 */
+  }
+  
+  /* ShipQuantity Styles */
+  .styled-ship-quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  
+  .styled-ship-quantity button {
+    width: 3rem; /* w-8 */
+    height: 3rem; /* h-8 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #93c5fd; /* blue-300 */
+    background-color: rgba(30, 58, 138, 0.5); /* blue-900/50 */
+    transition: background-color 0.2s;
+    border: none;
+  }
+  
+  .styled-ship-quantity button:hover {
+    background-color: rgba(30, 58, 138, 0.7); /* blue-800/70 */
+  }
+  
+  .styled-quantity-display {
+    width: 3rem; /* w-12 */
+    height: 3rem; /* h-8 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1A2234;
+    color: #bfdbfe; /* blue-100 */
+    border-top: 1px solid rgba(30, 58, 138, 0.7); /* border-y border-blue-900/70 */
+    border-bottom: 1px solid rgba(30, 58, 138, 0.7);
+    padding: 0 0.5rem;
+  }
+  
+  .styled-ship-quantity button:first-of-type {
+    border-radius: 0.25rem 0 0 0.25rem; /* rounded-l */
+  }
+  
+  .styled-ship-quantity button:last-of-type {
+    border-radius: 0 0.25rem 0.25rem 0; /* rounded-r */
+  }

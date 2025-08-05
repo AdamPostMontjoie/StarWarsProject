@@ -4,6 +4,7 @@ import { FavoriteShip, nonUserShip} from '../../interfaces/Ship'
 import ShipQuantity from './ShipQuantity'
 import { useEffect } from 'react'
 import ShipImageArray from './shipImages'
+import './ShipCard.css';
 
 const ShipCard = ({index, ship, addToFleet, userShips} : {index:number, ship:any, addToFleet:any, userShips:FavoriteShip[] | nonUserShip[]}) => {
 
@@ -53,20 +54,26 @@ const ShipCard = ({index, ship, addToFleet, userShips} : {index:number, ship:any
   const imageUrl = ShipImageArray[index]
 
   return (
-        <Card className="w-100 h-100" style={{ minHeight: '220px' }}>
-      <Card.Img 
-        variant="top" 
-        src={ imageUrl || 'https://via.placeholder.com/150x100?text=No+Image'} 
-        style={{ height: '120px', objectFit: 'cover', background: '#e0e0e0' }} 
+        <Card className="styled-ship-card h-100 flex-column d-flex overflow-hidden" style={{ minHeight: '220px' }}>
+      <div
+        className="card-image-wrapper"
+        style={{ backgroundImage: `url(${imageUrl || 'https://via.placeholder.com/150x100?text=No+Image'})` }}
       />
-      <Card.Body className="text-center d-flex flex-column flex-grow-1 justify-content-between p-2">
-        <Card.Title className="fs-6 mb-1">{ship.name}</Card.Title>     
+      <Card.Body className="p-3 text-center d-flex flex-column flex-grow-1 justify-content-between bg-[#1A2234]">
+        <Card.Title className="fs-6 mb-2" 
+          style={{ color: '#93c5fd', fontWeight: 500 }}>{ship.name}</Card.Title>     
         <ShipQuantity setCount={setQuantity} count={quantity}/>
       </Card.Body>
       <Button
         onClick={postShip}
         className="w-100 py-1"
         disabled={isAdding}
+        variant={
+          shipInUserFleet && quantity === 0 ? 'danger' : (
+            quantity > 0 ? 'primary' : 'outline-primary'
+          )
+        }
+        style={{ borderRadius: '0 0 0.5rem 0.5rem' }}
       >
         {isAdding ? (
           <>
@@ -77,8 +84,10 @@ const ShipCard = ({index, ship, addToFleet, userShips} : {index:number, ship:any
               role="status"
               aria-hidden="true"
             />
-            <span className="ms-2">Adding...</span> 
+            <span className="ms-2">Updating...</span>
           </>
+        ) : shipInUserFleet && quantity === 0 ? (
+          'Remove from Fleet'
         ) : (
           'Add to Fleet'
         )}

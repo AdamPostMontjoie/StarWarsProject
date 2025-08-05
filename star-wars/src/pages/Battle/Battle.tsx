@@ -18,6 +18,9 @@ const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip
     const [winner,setWinner] = useState("")
     const [aiRequestCompleted, setAiRequstCompleted] = useState(false)
     const {userLoggedIn} = useAuth()
+    
+    // New state to store battle data
+    const [battleData, setBattleData] = useState<any>(null);
 
     function endGameNoAi(){
         setReady(false)
@@ -28,34 +31,51 @@ const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip
         setBattleReport("")
     }
 
-    async function endGameWithAI(
-            userTurnLog:string[][],
-            enemyTurnLog:string[][],
-            initialUserClasses:(nonUserShip[] | FavoriteShip[])[],
-            initialEnemyClasses:(nonUserShip[] | FavoriteShip[])[],
-            winner:string
-        ){
-        setReady(false)
-        setGameOver(true)
-        const prompt = buildPrompt(userTurnLog,enemyTurnLog,initialUserClasses,initialEnemyClasses,winner)
-        console.log(prompt)
-        setAiLoading(true)
-        try{
-            const response = await axios.post("https://starwars-backend-z23b.onrender.com/ai", {prompt:prompt})
-            console.log(response.data.result)
-            setAiLoading(false)
-            setBattleReport(response.data.result)
-            setReady(false)
-            setAiRequstCompleted(true)
-        }
-        catch(err){
-            console.error("failed request")
-            setAiLoading(false)
-            setBattleReport("Gemini failed to respond")
-            setReady(false)
-            setAiRequstCompleted(false)
-        }
+    async function getBattleReportFromAI() {
+      if (!battleData) return;
+
+      setReady(false);
+      setGameOver(true);
+      const { userTurnLog, enemyTurnLog, initialUserClasses, initialEnemyClasses, winner } = battleData;
+      const prompt = buildPrompt(userTurnLog, enemyTurnLog, initialUserClasses, initialEnemyClasses, winner);
+
+      console.log(prompt);
+      setAiLoading(true);
+
+      try {
+        const response = await axios.post("https://starwars-backend-z23b.onrender.com/ai", { prompt: prompt });
+        console.log(response.data.result);
+        setAiLoading(false);
+        setBattleReport(response.data.result);
+        setReady(false);
+        setAiRequstCompleted(true);
+      } catch (err) {
+        console.error("failed request");
+        setAiLoading(false);
+        setBattleReport("Gemini failed to respond");
+        setReady(false);
+        setAiRequstCompleted(false);
+      }
     }
+    
+    // This is the function that gets called after combat
+    function recordBattleData(
+        userTurnLog: string[][],
+        enemyTurnLog: string[][],
+        initialUserClasses: (nonUserShip[] | FavoriteShip[])[],
+        initialEnemyClasses: (nonUserShip[] | FavoriteShip[])[],
+        winner: string
+    ) {
+      const data = { userTurnLog, enemyTurnLog, initialUserClasses, initialEnemyClasses, winner };
+      setBattleData(data);
+    }
+    
+    // We now have a separate effect to trigger the AI call once battle data is recorded
+    useEffect(() => {
+      if(battleData) {
+        getBattleReportFromAI();
+      }
+    }, [battleData]);
 
     return (
         <div>
@@ -67,7 +87,7 @@ const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip
             <div>
             {ready && !battleReport&& (
                 <div>
-                    <Combat endGame={endGameWithAI} userShips={userShips} enemyShips={enemyShips}/>
+                    <Combat endGame={recordBattleData} userShips={userShips} enemyShips={enemyShips}/>
                     <Button onClick={()=>endGameNoAi()} >Exit Battle</Button>
                 </div>
             )}
@@ -78,14 +98,12 @@ const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip
             )}
             {battleReport  && (
                 <div className="my-3">
-                    <BattleReport retry={endGameWithAI} aiRequestCompleted={aiRequestCompleted} loggedIn={userLoggedIn} reset={reset} winner={winner} text={battleReport}/>
+                    <BattleReport retry={getBattleReportFromAI} aiRequestCompleted={aiRequestCompleted} loggedIn={userLoggedIn} reset={reset} winner={winner} text={battleReport}/>
                 </div>
             )}
             </div>
-    
-            
         </div>
     )
 }
 
-export default Battle
+export default Battle;

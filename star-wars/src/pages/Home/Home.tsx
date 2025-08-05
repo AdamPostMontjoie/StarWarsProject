@@ -1,5 +1,6 @@
 import React, {useRef} from 'react'
 import TopNav from '../../components/TopNav'
+import { StarBackground } from '../../components/StarBackground'
 import { useAuth } from '../../contexts/authContext'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
@@ -118,9 +119,10 @@ const Home = () => {
 
   return (
     <div className='text-center'>
+       <StarBackground />
       <TopNav/>
       
-      <div className="pt-5">
+      <div className="pt-5" style={{ position: 'relative', zIndex: 1 }}>
       {!userLoggedIn && !loading && (
         <InfoModal/>
       )}

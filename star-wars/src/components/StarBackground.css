@@ -1,0 +1,32 @@
+.stars-small {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: transparent;
+    animation: twinkle 5s infinite;
+  }
+  .stars-medium {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    animation: twinkle 10s infinite;
+  }
+  .stars-large {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: transparent;
+    animation: twinkle 15s infinite;
+  }
+  @keyframes twinkle {
+    0% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }

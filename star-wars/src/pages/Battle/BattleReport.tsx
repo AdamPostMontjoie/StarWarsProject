@@ -26,30 +26,33 @@ const BattleReport = ({ text, winner, reset,loggedIn,aiRequestCompleted,retry }:
                   </p>
                 ))}
               </Card.Text>
-              {loggedIn && aiRequestCompleted? (
-                <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-center align-items-center">
-                <Button  size="lg" onClick={handleReset} className="me-2">
-                    Play Again!
-                  </Button>
-                </Card.Footer>
-              ): (
+              {aiRequestCompleted ? (
+                loggedIn ? (
+                  // Condition: AI request completed AND user is logged in
+                  <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-center align-items-center">
+                    <Button size="lg" onClick={handleReset} className="me-2">
+                      Play Again!
+                    </Button>
+                  </Card.Footer>
+                ) : (
+                  // Condition: AI request completed BUT user is NOT logged in
+                  <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-between align-items-center">
+                    <Button size="lg" onClick={handleReset} className="me-2">
+                      Play Again!
+                    </Button>
+                    <Button variant="outline-primary" size="lg">
+                      <a style={{ textDecoration: 'none' }} href="/register">Want More? Sign Up & Unlock Levels!</a>
+                    </Button>
+                  </Card.Footer>
+                )
+              ) : (
+                // Condition: AI request NOT completed
                 <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-between align-items-center">
-                <Button  size="lg" onClick={handleReset} className="me-2">
-                    Play Again!
-                  </Button>
-                  <Button variant="outline-primary" size="lg">
-                  <a style={{textDecoration:'none'}} href='/register'>Want More? Sign Up & Unlock Levels!</a>
+                  <Button size="lg" onClick={retry} className="me-2">
+                    Try Again
                   </Button>
                 </Card.Footer>
               )}
-              {!aiRequestCompleted && (
-                 <Card.Footer className="text-muted border-0 bg-light pt-3 d-flex justify-content-between align-items-center">
-                 <Button  size="lg" onClick={retry} className="me-2">
-                     Try Again
-                   </Button>
-                 </Card.Footer>
-              )}
-              
             </Card.Body>
           </Card>
         </Col>

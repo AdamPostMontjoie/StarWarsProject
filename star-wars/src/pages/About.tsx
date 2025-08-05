@@ -1,5 +1,6 @@
 import React from 'react';
 import TopNav from '../components/TopNav';
+import { StarBackground } from '../components/StarBackground';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -9,9 +10,10 @@ import { Image } from 'react-bootstrap';
 
 const About = () => {
   return (
-    <div>
-      <TopNav />
-      <Container className="mt-5">
+    <div style={{ position: 'relative', minHeight: '100vh', color: 'white' }}>
+      <TopNav/>
+      <StarBackground/>
+      <Container className="mt-5" style={{ zIndex: 1, position: 'relative' }}>
         <Row className="justify-content-center">
           <Col md={8}>
             <Card>
