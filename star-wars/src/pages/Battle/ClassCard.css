@@ -1,0 +1,27 @@
+\/* ClassCard.css */
+
+.class-card-container {
+    background-color: transparent; /* Changed: Allows parent background to show through */
+    border: none;
+    box-shadow: none;
+    color: white; 
+    padding: 1rem;
+    max-width: 100%;
+}
+
+.class-card-ship-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(23, 37, 84, 0.5); 
+}
+
+.class-card-ship-item:last-child {
+    border-bottom: none; 
+}
+
+.class-card-ship-name {
+    color: #e0e7ff; 
+}
+
+.class-card-ship-quantity {
+    color: #60a5fa; 
+}

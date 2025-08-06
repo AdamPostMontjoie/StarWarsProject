@@ -17,7 +17,7 @@ import './Home.css';
 
 const Home = () => {
   const {userLoggedIn, currentUser, loading} = useAuth()
-  
+  const [credits, setCredits] = useState(10)
   const [shipSelector,setShipSelector] = useState(true)
   const [userShips, setUserShips] = useState<nonUserShip[] | FavoriteShip[]>([])
   const initialShipsLoaded = useRef(false);
@@ -44,6 +44,15 @@ const Home = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
+  useEffect(()=>{
+    function addCredits(){
+      if(userLoggedIn){
+        setCredits(100000)
+      }
+    }
+    addCredits()
+  },[setCredits,userLoggedIn])
+
   useEffect(()=>{
     async function getLoggedInShips(){
       if (loading) {

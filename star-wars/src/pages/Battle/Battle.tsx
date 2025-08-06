@@ -88,7 +88,6 @@ const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip
             {ready && !battleReport&& (
                 <div>
                     <Combat endGame={recordBattleData} userShips={userShips} enemyShips={enemyShips}/>
-                    <Button onClick={()=>endGameNoAi()} >Exit Battle</Button>
                 </div>
             )}
             {aiLoading && (

@@ -3,14 +3,14 @@ import {Card, ListGroup} from 'react-bootstrap'
 
 const LogBox = ({battleLog}: {battleLog:string[]}) => {
   return (
-    <div>
-        <Card style={{ width: '18rem' }}>
-        <Card.Header>Featured</Card.Header>
-        <ListGroup variant="flush">
-            {battleLog.map((log) =>(
-                <ListGroup.Item>{log}</ListGroup.Item>
-            ))}
-        </ListGroup>
+    <div className="logbox-container">
+        <Card className="log-card">
+            <Card.Header className="log-card-header">Featured</Card.Header>
+            <ListGroup variant="flush" className="log-list-group">
+                {battleLog.map((log, index) =>(
+                    <ListGroup.Item key={index} className="log-list-item">{log}</ListGroup.Item>
+                ))}
+            </ListGroup>
         </Card>
     </div>
   )

@@ -5,7 +5,7 @@ import ClassCard from './ClassCard';
 import LogBox from './LogBox';
 import { handleUserTurn,handleEnemyTurn } from './BattleLogic';
 import { EnemyTurnResult, UserTurnResult } from '../../interfaces/Battle';
-
+import './Combat.css'; 
 
 const Combat = ({ userShips, enemyShips, endGame }: { userShips: nonUserShip[] | FavoriteShip[], enemyShips: nonUserShip[], endGame:any}) => {
     const [capitalShips, setCapitalShips] = useState(userShips.filter((ship) => ship.properties.class === "Capital"))
@@ -27,12 +27,8 @@ const Combat = ({ userShips, enemyShips, endGame }: { userShips: nonUserShip[] |
     //class turn info
     const [userClass, setUserClass] = useState<nonUserShip[] | FavoriteShip[]>([]);
     const [userClassSelected, setuserClassSelected] = useState(false);
-    const [userTarget, setUserTarget] = useState<nonUserShip[]>([]);
+    const [userTarget, setUserTarget] = useState<nonUserShip[] | FavoriteShip[]>([]);
     const [userTargetSelected, setUserTargetSelected] = useState(false);
-    // const [enemyClass, setEnemyClass] = useState<nonUserShip[]>([]);
-    // const [enemyClassSelected, setEnemyClassSelected] = useState(false);
-    // const [enemyTarget, setEnemyTarget] = useState<nonUserShip[] | FavoriteShip[]>([]);
-    // const [enemyTargetSelected, setEnemyTargetSelected] = useState(false);
 
     //game status info
     const [gameOver, setGameOver] = useState(false);
@@ -190,97 +186,97 @@ const Combat = ({ userShips, enemyShips, endGame }: { userShips: nonUserShip[] |
             }
         }
     }
-
     return (
-        <div>
-            <h1>Active battle</h1>
+        <div className='combat-container'>
+            <h1 className="combat-main-heading">Active Battle</h1>
 
-            <Container className="my-5">
-                <Row className="justify-content-center align-items-start">
-
-                    <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0">
-                        <h2 className="text-center text-primary">Your Fleet</h2>
+            <Container fluid className="battle-container">
+                <Row className="justify-content-center align-items-stretch battle-row-height">
+                    
+                    {/* User Fleet */}
+                    <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0 d-flex flex-column">
+                        <h2 className="combat-user-heading">Your Fleet</h2>
                         <hr className="my-3"/>
-                        {capitalShips.length > 0 && (
-                            <Row className="justify-content-center align-items-start my-4">
-                                <Col xs={12} onClick={isUserTurn ? () => selectClass(capitalShips) : undefined} className="mb-4 mb-md-0">
+                        <div className="fleet-scroll-area">
+                            {capitalShips.length > 0 && (
+                                <div onClick={isUserTurn ? () => selectClass(capitalShips) : undefined} 
+                                    className={`clickable-fleet-class ${userClass === capitalShips ? 'selected-user-class' : ''}`}>
                                     <h4 className="text-center text-info">Capital Ships</h4>
                                     <ClassCard ships={capitalShips}/>
-                                </Col>
-                            </Row>
-                        )}
-                        {starfighters.length > 0 && (
-                            <Row className="justify-content-center align-items-start my-4">
-                                <Col onClick={isUserTurn ? () => selectClass(starfighters) : undefined} xs={12} className="mb-4 mb-md-0">
+                                </div>
+                            )}
+                            {starfighters.length > 0 && (
+                                <div onClick={isUserTurn ? () => selectClass(starfighters) : undefined} 
+                                    className={`clickable-fleet-class ${userClass === starfighters ? 'selected-user-class' : ''}`}>
                                     <h4 className="text-center text-info">Starfighters</h4>
                                     <ClassCard ships={starfighters}/>
-                                </Col>
-                            </Row>
-                        )}
-
-                        {bombers.length > 0 && (
-                            <Row className="justify-content-center align-items-start my-4">
-                                <Col xs={12} onClick={isUserTurn ? () => selectClass(bombers) : undefined} className="mb-4 mb-md-0">
+                                </div>
+                            )}
+                            {bombers.length > 0 && (
+                                <div onClick={isUserTurn ? () => selectClass(bombers) : undefined} 
+                                    className={`clickable-fleet-class ${userClass === bombers ? 'selected-user-class' : ''}`}>
                                     <h4 className="text-center text-info">Bombers</h4>
                                     <ClassCard ships={bombers}/>
-                                </Col>
-                            </Row>
-                        )}
-
-                        
+                                </div>
+                            )}
+                        </div>
                     </Col>
                     
-                    <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0 ms-md-4">
-                        <h2 className="text-center mb-3 text-danger">Enemy Fleet</h2>
+                    {/* Battle Log in Center */}
+                    <Col xs={12} md={12} lg={2} className="d-flex align-items-center justify-content-center">
+                        <div className='battlelog-wrapper my-4 my-lg-0'>
+                            {turnIndex > -1 && (
+                                isUserTurn 
+                                    ? <LogBox battleLog={enemyTurnLog[turnIndex]}/> 
+                                    : <LogBox battleLog={userTurnLog[turnIndex]}/>
+                            )}
+                        </div>
+                    </Col>
+                    
+                    {/* Enemy Fleet */}
+                    <Col xs={12} md={6} lg={5} className="mb-4 mb-md-0 d-flex flex-column">
+                        <h2 className="combat-enemy-heading">Enemy Fleet</h2>
                         <hr className="my-3"/>
-                        {eCapitalShips.length > 0 && (
-                            <Row className=" justify-content-center align-items-start my-4">
-                                <Col xs={12} onClick={isUserTurn ? () => selectUserTarget(eCapitalShips) : undefined} className="mb-4 mb-md-0">
+                        <div className="fleet-scroll-area">
+                            {eCapitalShips.length > 0 && (
+                                <div onClick={isUserTurn ? () => selectUserTarget(eCapitalShips) : undefined} 
+                                    className={`clickable-fleet-class ${userTarget === eCapitalShips ? 'selected-enemy-target' : ''}`}>
                                     <h4 className="text-center text-danger">Capital Ships</h4>
                                     <ClassCard ships={eCapitalShips}/>
-                                </Col>
-                            </Row>
-                        )}
-                        {eStarfighters.length > 0 && (
-                            <Row className="justify-content-center align-items-start my-4">
-                                <Col xs={12} onClick={isUserTurn ? () => selectUserTarget(eStarfighters) : undefined} className="mb-4 mb-md-0">
+                                </div>
+                            )}
+                            {eStarfighters.length > 0 && (
+                                <div onClick={isUserTurn ? () => selectUserTarget(eStarfighters) : undefined} 
+                                    className={`clickable-fleet-class ${userTarget === eStarfighters ? 'selected-enemy-target' : ''}`}>
                                     <h4 className="text-center text-danger">Starfighters</h4>
                                     <ClassCard ships={eStarfighters}/>
-                                </Col>
-                            </Row>
-                        )}
-
-                        {eBombers.length > 0 && (
-                            <Row className="justify-content-center align-items-start my-4">
-                                <Col xs={12} onClick={isUserTurn ? () => selectUserTarget(eBombers) : undefined} className="mb-4 mb-md-0">
+                                </div>
+                            )}
+                            {eBombers.length > 0 && (
+                                <div onClick={isUserTurn ? () => selectUserTarget(eBombers) : undefined} 
+                                    className={`clickable-fleet-class ${userTarget === eBombers ? 'selected-enemy-target' : ''}`}>
                                     <h4 className="text-center text-danger">Bombers</h4>
                                     <ClassCard ships={eBombers}/>
-                                </Col>
-                            </Row>
-                        )}
-
-                        
+                                </div>
+                            )}
+                        </div>
                     </Col>
                 </Row>
-                {userClassSelected && userTargetSelected && !gameOver && isUserTurn && (
-                    <div className='justify-content-center'>
-                            <Button onClick={()=>handleUserAttack()}>Turn</Button>
-                    </div>
-                )} 
-                {!isUserTurn && !gameOver && (
-                    <div className='justify-content-center'>
-                        <Button onClick={()=>handleEnemyAttack()}>Continue</Button>
-                    </div>
-                )}
-                {turnIndex > -1 && (
-                isUserTurn 
-                    ? <LogBox battleLog={enemyTurnLog[turnIndex]}/> 
-                    : <LogBox battleLog={userTurnLog[turnIndex]}/>
-                )}
-                {gameOver && (
-                    <Button onClick={()=>endGame(userTurnLog,enemyTurnLog,initialUserClasses,initialEnemyClasses,winner)}>End Game and Generate AI Report</Button>
-                )}
                 
+                {/* Buttons Row */}
+                <Row className="justify-content-center my-4">
+                    <Col xs={12} className="text-center">
+                        {userClassSelected && userTargetSelected && !gameOver && isUserTurn && (
+                            <Button onClick={()=>handleUserAttack()} className="combat-action-button mx-2">Take Turn</Button>
+                        )} 
+                        {!isUserTurn && !gameOver && (
+                            <Button onClick={()=>handleEnemyAttack()} className="combat-action-button mx-2">Start Enemy Attack</Button>
+                        )}
+                        {gameOver && (
+                            <Button onClick={()=>endGame(userTurnLog,enemyTurnLog,initialUserClasses,initialEnemyClasses,winner)} className="combat-gameover-button mx-2">End Game and Generate AI Report</Button>
+                        )}
+                    </Col>
+                </Row>
             </Container>
         </div>
     );
