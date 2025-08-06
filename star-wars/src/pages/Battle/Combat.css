@@ -4,8 +4,7 @@
 .combat-container {
     background-color: #0a1224; /* Dark space background */
     color: white; /* Default text color */
-    min-width: 62.5rem;
-    max-width: 87.5rem;
+    max-width: 87.5rem; /* We'll keep the max-width to prevent it from getting too wide */
     margin: 0 auto;
     padding: 1rem 0;
 }
