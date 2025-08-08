@@ -8,6 +8,7 @@ import Combat from './Combat';
 import { FavoriteShip, nonUserShip } from '../../interfaces/Ship';
 import BattleReport from './BattleReport';
 import { buildPrompt } from './GeminiPrompt';
+import GameModal from '../../components/GameModal';
 
 const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip[],  resetGame:any}) => {
     const [enemyShips,setEnemyShips] = useState<nonUserShip[]>([]);
@@ -17,7 +18,7 @@ const Battle = ({userShips, resetGame} : {userShips:nonUserShip[] | FavoriteShip
     const [battleReport, setBattleReport] = useState<string>("")
     const [winner,setWinner] = useState("")
     const [aiRequestCompleted, setAiRequstCompleted] = useState(false)
-    const {userLoggedIn} = useAuth()
+    const {userLoggedIn,loading} = useAuth()
     
     // New state to store battle data
     const [battleData, setBattleData] = useState<any>(null);

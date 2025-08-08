@@ -1,0 +1,104 @@
+/* Custom font for a futuristic feel */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* Main modal styling */
+.info-modal-content .modal-content {
+    background-color: rgba(18, 26, 42, 0.9); /* Updated to match login/register card background */
+    border: 1px solid #2563eb; /* Updated to match login/register card border */
+    color: #c9d1d9; /* Updated to match login/register text color */
+    border-radius: 1rem; /* Updated border radius */
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.5); /* Updated to match login/register glowing effect */
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Modal header styling */
+.info-modal-content .modal-header {
+    border-bottom: 1px solid #4a5568; /* Updated to match login/register input border color */
+    padding: 1.5rem;
+    position: relative;
+}
+
+/* Animated line below the title */
+.info-modal-content .modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #2563eb; /* Updated to match primary button color */
+    animation: expandLine 1.5s ease-out forwards;
+}
+
+@keyframes expandLine {
+    to { width: 80%; }
+}
+
+.info-modal-content .modal-title {
+    color: #93c5fd; /* Updated to match login/register heading color */
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(37, 99, 235, 0.4); /* Updated to match the new blue theme */
+}
+
+/* Close button styling */
+.info-modal-content .btn-close {
+    filter: invert(1);
+    color: #fff;
+    opacity: 0.8;
+}
+
+/* Modal body styling */
+.info-modal-content .modal-body {
+    padding: 2rem 1.5rem;
+}
+
+.info-modal-content .modal-body h5 {
+    color: #93c5fd; /* Consistent heading color */
+    border-bottom: 1px solid #4a5568; /* Consistent border color */
+    padding-bottom: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+/* List group styling */
+.info-modal-content .list-group-item {
+    background-color: transparent;
+    border: none;
+    color: #c9d1d9; /* Consistent text color */
+    padding: 0.75rem 1rem;
+    font-family: Arial, sans-serif;
+}
+
+.info-modal-content .list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* Icon styling */
+.info-modal-content .list-group-item::before {
+    margin-right: 10px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.info-modal-content .list-group-item:hover::before {
+    filter: grayscale(0%);
+}
+
+/* Button styling */
+.info-modal-content .modal-footer {
+    border-top: 1px solid #4a5568; /* Consistent border color */
+}
+
+.info-modal-content .btn-primary {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.info-modal-content .btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    transform: scale(1.05);
+}

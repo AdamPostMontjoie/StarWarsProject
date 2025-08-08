@@ -1,58 +1,49 @@
-/* InfoModal.css */
-
-/* Main Modal Container */
 .info-modal-content .modal-content {
-    background-color: #0a1224; /* Dark space background */
-    border: 1px solid rgba(23, 37, 84, 0.5); /* Subtle blue border */
-    box-shadow: 0 0 8px rgba(37, 99, 235, 0.5); /* Soft blue glow */
-    color: white; /* Set a base light color for all text */
+    background-color: rgba(18, 26, 42, 0.9);
+    border: 1px solid #2563eb;
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+    color: white;
+    border-radius: 1rem;
 }
 
-/* Modal Header and Title */
 .info-modal-content .modal-content .modal-header {
-    border-bottom: 1px solid rgba(23, 37, 84, 0.5); /* Separator line */
+    border-bottom: 1px solid #4a5568;
     padding: 1.5rem;
 }
 
 .info-modal-content .modal-content .modal-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #93c5fd; /* Light blue color from ShipSelect */
+    color: #93c5fd;
     text-align: center;
     width: 100%;
 }
 
-/* Modal Body */
 .info-modal-content .modal-content .modal-body {
     padding: 1.5rem;
 }
 
-/* Modal Body Headings */
 .info-modal-content .modal-content .modal-body h5 {
-    color: #93c5fd; /* Light blue for headings */
+    color: #93c5fd;
     font-weight: bold;
 }
 
-/* Modal Body Paragraphs */
 .info-modal-content .modal-content .modal-body p {
-    color: white; /* White text for better readability */
+    color: #c9d1d9;
 }
 
-/* List Group Styling */
 .info-modal-content .modal-content .list-group-item {
     background-color: transparent !important;
     border: none !important;
-    color: #e0e7ff; /* A slightly softer white for list items */
+    color: #c9d1d9;
     padding: 0.5rem 0;
 }
 
-/* Modal Footer */
 .info-modal-content .modal-content .modal-footer {
-    border-top: 1px solid rgba(23, 37, 84, 0.5); /* Separator line */
+    border-top: 1px solid #4a5568;
     padding: 1rem 1.5rem;
 }
 
-/* Override the primary button style to match ShipSelect toggle */
 .info-modal-content .modal-content .btn-primary {
     background-color: #2563eb;
     border-color: #2563eb;

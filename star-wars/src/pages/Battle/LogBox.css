@@ -1,0 +1,4 @@
+/* logbox.css */
+.log-list-item {
+    font-size: 0.8rem; /* Makes the font smaller for a more compact log */
+}

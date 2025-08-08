@@ -1,0 +1,54 @@
+.login-page-container {
+    background-color: #0a1224; /* A dark space-themed background */
+    color: white; /* White text for contrast */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-card {
+    background-color: rgba(18, 26, 42, 0.9); /* Semi-transparent dark card background */
+    border: 1px solid #2563eb; /* Blue border to match theme */
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.5); /* Glowing effect */
+    max-width: 450px;
+    width: 100%;
+  }
+  
+  .login-heading {
+    color: #93c5fd; /* Light blue heading */
+    font-weight: bold;
+  }
+  
+  .form-label {
+    color: #c9d1d9; /* Lighter grey for labels */
+  }
+  
+  .form-control {
+    background-color: #1a202c; /* Darker input background */
+    border: 1px solid #4a5568;
+    color: white;
+  }
+  
+  .form-control:focus {
+    background-color: #1a202c;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+    color: white;
+  }
+  
+  .btn-primary {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    font-weight: bold;
+  }
+  
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+  }
+  
+  .login-error-message {
+    color: #dc2626; /* Red for error messages */
+    font-weight: bold;
+  }

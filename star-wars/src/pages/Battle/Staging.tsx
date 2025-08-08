@@ -47,7 +47,7 @@ const Staging = ({userShips, enemyShips, setEnemyShips, setReady}: {userShips:no
                         justify
                         onSelect={handleTabSelect}
                     >
-                        <Tab  eventKey="1" title={<span>Pirates</span>}></Tab>
+                        <Tab  eventKey="1" title={<span>Separatists</span>}></Tab>
                         <Tab disabled={!userLoggedIn} eventKey="2" title={userLoggedIn ? <span>Rebellion</span> :<span>Rebellion <Lock/></span> }> </Tab>
                         <Tab disabled={!userLoggedIn} eventKey="3"title={ userLoggedIn ? <span>Republic</span> :<span>Republic <Lock/></span>} ></Tab>
                         <Tab disabled={!userLoggedIn} eventKey="4" title={ userLoggedIn ? <span>Empire</span> :<span>Empire <Lock/></span>} ></Tab>

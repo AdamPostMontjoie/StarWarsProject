@@ -22,7 +22,7 @@ function InfoModal() {
           <Modal.Title>Welcome to Galactic Fleet Battles!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="text-center lead mb-4">Assemble a fleet of starships and test their might against different factions from Star Wars!</p>
+          <p className="text-center lead mb-4">Assemble a fleet of starships and play against different enemies</p>
           
           <h5 className="mb-3 text-center">How to play</h5>
           <ListGroup variant="flush">
