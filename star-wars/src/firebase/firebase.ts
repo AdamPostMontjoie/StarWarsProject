@@ -6,12 +6,12 @@ import {getAuth} from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCQGEJEtStNbCyzXlJGZx7IZAc8ZAJMcKo",
-  authDomain: "star-wars-8901a.firebaseapp.com",
-  projectId: "star-wars-8901a",
-  storageBucket: "star-wars-8901a.firebasestorage.app",
-  messagingSenderId: "464161975758",
-  appId: "1:464161975758:web:8fe6722003327d4ab60f9f"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID
 };
 
 // Initialize Firebase
